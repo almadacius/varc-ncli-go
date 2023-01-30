@@ -2,8 +2,7 @@ package cmd
 
 import (
   "fmt"
-  "os"
-  "path"
+  "almadash/varc/utils"
 )
 
 // ================================================
@@ -20,12 +19,7 @@ func (c *ListCmd) Run(options []string) {
 
   fmt.Println("scopeName ", scopeName)
 
-  execPath, err := os.Executable()
-  if err != nil {
-    fmt.Println("Failed to get program path")
-    os.Exit(1)
-  }
+  dir := utils.GetDirname()
 
-  dir := path.Dir(execPath)
   fmt.Println("path: ", dir)
 }

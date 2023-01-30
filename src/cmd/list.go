@@ -45,7 +45,7 @@ func (c *ListCmd) Run(options []string) {
       os.Exit(1)
     }
     // Print
-    fmt.Printf("textPtr: %s, metricPtr: %s, uniquePtr: %t\n",
+    fmt.Printf("textPtro: %s, metricPtr: %s, uniquePtr: %t\n",
       *c.text, *c.metric, *c.unique)
   }
 }

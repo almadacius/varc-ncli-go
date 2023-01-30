@@ -10,7 +10,7 @@ function main () {
 
   cd "$srcDir"
 
-  go run main.go
+  go run main.go list -text "fre freo"
 }
 
 ( main $@ )

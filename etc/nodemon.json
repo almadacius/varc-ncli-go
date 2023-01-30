@@ -1,5 +1,12 @@
 {
+  "watch": [
+    "etc",
+    "src"
+  ],
+  "ignore": ["node_modules", ".git"],
+  "verbose": true,
+  "ext": "sh,go",
   "execMap": {
-    "go": "go run"
+    "sh": "bash"
   }
 }

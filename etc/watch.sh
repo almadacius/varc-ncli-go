@@ -6,12 +6,11 @@ function main () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
   local projRoot=$(cd "$HERE/.." && pwd -P)
 
-  local srcDir="$projRoot/src"
+  cd "$projRoot"
 
-  cd "$srcDir"
-
-  nodemon --config "$HERE/nodemon.json" \
-    main.go list -text "nice nice"
+  nodemon \
+    --config "$HERE/nodemon.json" \
+    etc/run.sh
 }
 
 ( main $@ )

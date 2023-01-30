@@ -1,10 +1,13 @@
+/*
+  this sample includes basic structure for option handling
+  might not be used on this program in particular.
+*/
 package main
 
 import (
   "flag"
   "fmt"
   "os"
-  "almadash/varc/cmd"
 )
 
 // ================================================
@@ -38,14 +41,46 @@ func count(options []string) {
       os.Exit(1)
     }
     //Choice flag
-    metricChoices := map[string]bool{"chars": true,
-      "words": true, "lines": true, "substring": true}
+    metricChoices := map[string]bool{
+      "chars": true, "words": true, "lines": true, "substring": true
+    }
     if _, validChoice := metricChoices[*countMetricPtr]; !validChoice {
       countCommand.PrintDefaults()
       os.Exit(1)
     }
     //Print
     fmt.Printf("textPtr: %s, metricPtr: %s, substringPtr: %v, uniquePtr: %t\n", *countTextPtr, *countMetricPtr, *countSubstringPtr, *countUniquePtr)
+  }
+}
+
+func list(options []string) {
+  listCommand := flag.NewFlagSet("list", flag.ExitOnError)
+
+  // List subcommand flag pointers
+  listTextPtr := listCommand.String("text", "", "Text to parse. (Required)")
+  listMetricPtr := listCommand.String("metric", "chars", "Metric <chars|words|lines>. (Required)")
+  listUniquePtr := listCommand.Bool("unique", false, "Measure unique values of a metric.")
+
+  listCommand.Parse(options)
+
+  // Check which subcommand was Parsed using the FlagSet.Parsed() function. Handle each case accordingly.
+  // FlagSet.Parse() will evaluate to false if no flags were parsed (i.e. the user did not provide any flags)
+  if listCommand.Parsed() {
+    // Required Flags
+    if *listTextPtr == "" {
+      listCommand.PrintDefaults()
+      os.Exit(1)
+    }
+    //Choice flag
+    metricChoices := map[string]bool{
+      "chars": true, "words": true, "lines": true
+    }
+    if _, validChoice := metricChoices[*listMetricPtr]; !validChoice {
+      listCommand.PrintDefaults()
+      os.Exit(1)
+    }
+    // Print
+    fmt.Printf("textPtr: %s, metricPtr: %s, uniquePtr: %t\n", *listTextPtr, *listMetricPtr, *listUniquePtr)
   }
 }
 
@@ -67,9 +102,7 @@ func main() {
   // os.Args[2:] will be all arguments starting after the subcommand at os.Args[1]
   switch os.Args[1] {
   case "list":
-    listCmd := cmd.ListCmd{}
-    listCmd.Declare()
-    listCmd.Run(options)
+    list(options)
   case "count":
     count(options)
   default:

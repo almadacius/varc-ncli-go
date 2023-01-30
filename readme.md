@@ -24,4 +24,39 @@ these were runs of a single console log command on different technologies.
 
 ---
 
+## external API
+
+```
+  varc set "{{scope}}.{{name}}" "{{value}}"
+  varc unset "{{scope}}.{{name}}"
+  varc get "{{scope}}.{{name}}"
+  varc scopes
+  varc del "{{scope}}"
+  varc keys "{{scope}}"
+```
+
+---
+
+## structure
+
+- deployment
+  + linked repo
+  + packaged app (@TODO)
+
+- storage
+  + local json
+
+- features
+  + scope separation
+  + per-scope get/set
+  + delete scope
+  + list scopes
+
+- output
+  + output is the only value written to stdout (&1)
+  + that's to simplify the interop, as the regular fd 3 (&3) strategy adds some boilerplate structures.
+  + logging info can be bundled on stderr (&2)
+
+---
+
 Copyright 2023 Almadash

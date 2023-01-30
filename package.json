@@ -1,0 +1,22 @@
+{
+  "name": "@almadash/varc-go-ncli",
+  "description": "helper for Bash state management, golang",
+  "version": "0.0.9",
+  "author": "Almadash",
+  "private": true,
+  "license": "UNLICENSED",
+  "bin": {
+    "varc": "dist/varcgo"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "build": "etc/build.sh"
+  },
+  "devDependencies": {
+    "@almadash/eslint-config-basic": "git+ssh://git@bitbucket.org:almadash/eslint-config-basic#1.1.5",
+    "@almadash/test-config": "git+ssh://git@bitbucket.org:almadash/test-config#0.2.0",
+    "nodemon": "^2.0.2"
+  },
+  "keywords": []
+}

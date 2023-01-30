@@ -7,15 +7,10 @@ function main () {
   local projRoot=$(cd "$HERE/.." && pwd -P)
 
   local srcDir="$projRoot/src"
-  local outDir="$projRoot/dist"
-
-  local output="$outDir/varcgo"
-
-  mkdir -p "$outDir"
 
   cd "$srcDir"
 
-  go build -o "$output" main.go
+  go run main.go
 }
 
 ( main $@ )

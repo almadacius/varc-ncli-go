@@ -10,7 +10,9 @@ function main () {
 
   cd "$srcDir"
 
-  go run main.go list -text "fre freo"
+  # exit 1 is to avoid error code 2, which stops nodmons
+  # this happens on syntax error at compilation, for example
+  go run main.go get "far" || exit 1
 }
 
 ( main $@ )

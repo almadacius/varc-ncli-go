@@ -55,24 +55,20 @@ func main() {
   // os.Arg[0] is the main command
   // os.Arg[1] will be the subcommand
   if len(os.Args) < 2 {
-    fmt.Println("list or count subcommand is required")
+    fmt.Println("get subcommand is required")
     os.Exit(1)
   }
 
+  cmdName := os.Args[1]
   options := os.Args[2:]
 
-  // Switch on the subcommand
-  // Parse the flags for appropriate FlagSet
-  // FlagSet.Parse() requires a set of arguments to parse as input
-  // os.Args[2:] will be all arguments starting after the subcommand at os.Args[1]
-  switch os.Args[1] {
-  case "list":
+  switch cmdName {
+  case "get":
     listCmd := cmd.ListCmd{}
     listCmd.Declare()
     listCmd.Run(options)
-  case "count":
-    count(options)
   default:
+    fmt.Println("command is not supported: ", cmdName)
     flag.PrintDefaults()
     os.Exit(1)
   }

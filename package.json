@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "etc/run.sh",
+    "rundist": "etc/run-dist.sh",
     "dev": "etc/watch.sh",
     "build": "etc/build.sh"
   },

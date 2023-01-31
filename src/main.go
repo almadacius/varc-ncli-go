@@ -63,8 +63,8 @@ func main() {
   options := os.Args[2:]
 
   switch cmdName {
-  case "get":
-    listCmd := cmd.ListCmd{}
+  case "set":
+    listCmd := cmd.SetCmd{}
     listCmd.Declare()
     listCmd.Run(options)
   default:

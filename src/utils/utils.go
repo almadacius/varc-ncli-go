@@ -15,6 +15,14 @@ func DirExists(path string) bool {
   return true
 }
 
+func FileExists(path string) bool {
+  _, err := os.Stat(path)
+  if os.IsNotExist(err) {
+    return false
+  }
+  return true
+}
+
 func isDir(path string) bool {
   stat, err := os.Lstat(path)
   if os.IsNotExist(err) {
@@ -54,4 +62,18 @@ func GetStorageDir() string {
   EnsureDir(storageDir)
 
   return storageDir
+}
+
+// ================================================
+func LogError(err error) {
+  if err != nil {
+    fmt.Println("[Error]: ", err)
+  }
+}
+
+func LogErrorAndPanic(err error) {
+  if err != nil {
+    fmt.Println("[Error]: ", err)
+    panic(err)
+  }
 }

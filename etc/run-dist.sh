@@ -10,7 +10,9 @@ function main () {
 
   cd "$outDir"
 
-  ./varcgo get "far"
+  ./varcgo set "far.aber" "noice"
+  ./varcgo set "far.drop" "like it's hot"
+  ./varcgo set "goo.drop" "3"
 }
 
 ( main $@ )

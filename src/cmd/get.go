@@ -8,31 +8,29 @@ import (
 )
 
 // ================================================
-type SetCmd struct {}
+type GetCmd struct {}
 
-func (c *SetCmd) Declare() {
+func (c *GetCmd) Declare() {
   // no flags
 }
 
-func (c *SetCmd) Run(options []string) {
-  if len(options) < 2 {
-    fmt.Println("set <scopePath> <value>")
+func (c *GetCmd) Run(options []string) {
+  if len(options) < 1 {
+    fmt.Println("get <scopePath>")
     os.Exit(1)
   }
 
   scopePath := options[0]
-  newValue := options[1]
 
   if scopePath == "" {
     utils.LogErrorAndPanic(errors.New("scopePath not provided"))
-  }
-  if newValue == "" {
-    utils.LogErrorAndPanic(errors.New("value not provided"))
   }
 
   scopeName, varName := utils.ParseScope(scopePath)
 
   scope := utils.NewScope(scopeName)
 
-  scope.SetVar(varName, newValue)
+  value := scope.GetVar(varName)
+
+  os.Stdout.Write([]byte(value))
 }

@@ -52,12 +52,27 @@ func (s *Scope) SetVar(key string, value string) {
   s.save()
 }
 
+func (s *Scope) UnsetVar(key string) {
+  delete(s.data, key)
+  s.save()
+}
+
 func (s *Scope) GetData() map[string] string {
   return s.data
 }
 
 func (s *Scope) GetVar(key string) string {
   return s.data[key]
+}
+
+func (s *Scope) GetKeys() []string {
+  keys := []string{}
+
+  for key, _ := range s.data {
+    keys = append(keys, key)
+  }
+
+  return keys
 }
 
 // ================================================

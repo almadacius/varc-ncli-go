@@ -15,11 +15,11 @@ func (c *ListCmd) Declare() {
 }
 
 func (c *ListCmd) Run(options []string) {
-  scopeName := options[0]
+  scopePath := options[0]
 
-  fmt.Println("scopeName ", scopeName)
+  scopeName, varName := utils.ParseScope(scopePath)
+  fmt.Println("out", scopeName, varName)
 
-  dir := utils.GetDirname()
-
-  fmt.Println("path: ", dir)
+  scope := utils.NewScope(scopeName)
+  fmt.Println("aa", scope)
 }

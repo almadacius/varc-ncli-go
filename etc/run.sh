@@ -12,7 +12,7 @@ function main () {
 
   # exit 1 is to avoid error code 2, which stops nodmons
   # this happens on syntax error at compilation, for example
-  go run main.go get "far" || exit 1
+  go run main.go get "far.a" || exit 1
 }
 
 ( main $@ )

@@ -17,8 +17,10 @@ baseline defined by single run of `(bash on macOs) time <command>` on `tornado` 
 these were runs of a single console log command on different technologies.
 
 - nodejs baseline: `0.08s`
+  + nodejs operational: `0.3s`
 - python baseline: `0.04s`
 - golang baseline: `0.01s`
+  + golang operational: `0.01s`
 
 - nodejs implementation average baseline: `0.3s` (very slow)
 

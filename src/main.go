@@ -33,6 +33,12 @@ func main() {
   case "keys":
     cmd := cmd.KeysCmd{}
     cmd.Run(options)
+  case "scopes":
+    cmd := cmd.ScopesCmd{}
+    cmd.Run(options)
+  case "del":
+    cmd := cmd.DelCmd{}
+    cmd.Run(options)
   default:
     fmt.Println("command is not supported: ", cmdName)
     flag.PrintDefaults()

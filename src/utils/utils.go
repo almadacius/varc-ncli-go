@@ -4,6 +4,8 @@ import (
   "os"
   "path"
   "fmt"
+  "log"
+  "strings"
 )
 
 // ================================================
@@ -74,6 +76,14 @@ func LogError(err error) {
 func LogErrorAndPanic(err error) {
   if err != nil {
     fmt.Println("[Error]: ", err)
+    log.Fatal(err)
     panic(err)
   }
+}
+
+// ================================================
+func StringListToBytes(strs []string) []byte {
+  joined := strings.Join(strs, "\n")
+  bytes := []byte(joined)
+  return bytes
 }

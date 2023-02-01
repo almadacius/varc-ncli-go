@@ -8,15 +8,15 @@ import (
 )
 
 // ================================================
-type KeysCmd struct {}
+type DelCmd struct {}
 
-func (c *KeysCmd) Declare() {
+func (c *DelCmd) Declare() {
   // no flags
 }
 
-func (c *KeysCmd) Run(options []string) {
+func (c *DelCmd) Run(options []string) {
   if len(options) < 1 {
-    fmt.Println("keys <scopeName>")
+    fmt.Println("del <scopeName>")
     os.Exit(1)
   }
 
@@ -27,9 +27,5 @@ func (c *KeysCmd) Run(options []string) {
   }
 
   scope := utils.NewScope(scopeName)
-
-  values := scope.GetKeys()
-  bytes := utils.StringListToBytes(values)
-
-  os.Stdout.Write(bytes)
+  scope.Delete()
 }

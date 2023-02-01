@@ -5,6 +5,7 @@ import (
   "fmt"
   "regexp"
   "encoding/json"
+  "io/ioutil"
 )
 
 // ================================================
@@ -25,6 +26,30 @@ func ParseScope(scopePath string) (string, string) {
   return scopeName, varName
 }
 
+func ListScopes() []string {
+  reExt := regexp.MustCompile(`\..{3,4}$`)
+
+  scopeDir := GetStorageDir()
+
+  files, err := ioutil.ReadDir(scopeDir)
+  LogErrorAndPanic(err)
+
+  filenames := []string{}
+  for _, f := range files {
+    name := reExt.ReplaceAllString(f.Name(), "")
+    filenames = append(filenames, name)
+  }
+
+  return filenames
+}
+
+// ================================================
+func GetScopeFile(name string) string {
+  dir := GetStorageDir()
+  path := dir + "/" + name + ".json"
+  return path
+}
+
 // ================================================
 type Scope struct {
   name string
@@ -36,8 +61,7 @@ func NewScope(name string) Scope {
   scope := Scope{}
   scope.name = name
 
-  dir := GetStorageDir()
-  path := dir + "/" + scope.name + ".json"
+  path := GetScopeFile(scope.name)
   scope.path = path
 
   scope.data = make(map[string] string)
@@ -73,6 +97,14 @@ func (s *Scope) GetKeys() []string {
   }
 
   return keys
+}
+
+func (s *Scope) Delete() {
+  filepath := s.path
+
+  if FileExists(filepath) {
+    os.Remove(filepath)
+  }
 }
 
 // ================================================

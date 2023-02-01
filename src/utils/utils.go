@@ -70,6 +70,16 @@ func GetStorageDir() string {
   return storageDir
 }
 
+func GetTimerFile() string {
+  execDir := GetDirname()
+  timerDir := execDir + "/varcgo-timer"
+  timerFile := timerDir + "/timer.json"
+
+  EnsureDir(timerDir)
+
+  return timerFile
+}
+
 // ================================================
 func LogError(err error) {
   if err != nil {
@@ -90,4 +100,10 @@ func StringListToBytes(strs []string) []byte {
   joined := strings.Join(strs, "\n")
   bytes := []byte(joined)
   return bytes
+}
+
+// ================================================
+func Output(data string) {
+  bytes := []byte(data)
+  os.Stdout.Write(bytes)
 }

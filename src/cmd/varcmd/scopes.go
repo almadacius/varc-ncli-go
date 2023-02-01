@@ -1,8 +1,9 @@
-package cmd
+package varcmd
 
 import (
   "os"
   "almadash/varc/utils"
+  "almadash/varc/controller/scopecon"
 )
 
 // ================================================
@@ -13,7 +14,7 @@ func (c *ScopesCmd) Declare() {
 }
 
 func (c *ScopesCmd) Run(options []string) {
-  scopes := utils.ListScopes()
+  scopes := scopecon.ListScopes()
 
   bytes := utils.StringListToBytes(scopes)
 

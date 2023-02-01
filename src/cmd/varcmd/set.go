@@ -1,10 +1,11 @@
-package cmd
+package varcmd
 
 import (
   "fmt"
   "os"
   "errors"
   "almadash/varc/utils"
+  "almadash/varc/controller/scopecon"
 )
 
 // ================================================
@@ -30,9 +31,9 @@ func (c *SetCmd) Run(options []string) {
     utils.LogErrorAndPanic(errors.New("value not provided"))
   }
 
-  scopeName, varName := utils.ParseScope(scopePath)
+  scopeName, varName := scopecon.ParseScope(scopePath)
 
-  scope := utils.NewScope(scopeName)
+  scope := scopecon.NewScope(scopeName)
 
   scope.SetVar(varName, newValue)
 }

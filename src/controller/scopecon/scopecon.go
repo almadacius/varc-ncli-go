@@ -1,11 +1,12 @@
-package utils
+package scopecon
 
 import (
   "os"
   "fmt"
   "regexp"
-  "encoding/json"
   "io/ioutil"
+  "almadash/varc/utils"
+  "almadash/varc/utils/jsonfile"
 )
 
 // ================================================
@@ -29,10 +30,10 @@ func ParseScope(scopePath string) (string, string) {
 func ListScopes() []string {
   reExt := regexp.MustCompile(`\..{3,4}$`)
 
-  scopeDir := GetStorageDir()
+  scopeDir := utils.GetStorageDir()
 
   files, err := ioutil.ReadDir(scopeDir)
-  LogErrorAndPanic(err)
+  utils.LogErrorAndPanic(err)
 
   filenames := []string{}
   for _, f := range files {
@@ -45,7 +46,7 @@ func ListScopes() []string {
 
 // ================================================
 func GetScopeFile(name string) string {
-  dir := GetStorageDir()
+  dir := utils.GetStorageDir()
   path := dir + "/" + name + ".json"
   return path
 }
@@ -102,34 +103,23 @@ func (s *Scope) GetKeys() []string {
 func (s *Scope) Delete() {
   filepath := s.path
 
-  if FileExists(filepath) {
+  if utils.FileExists(filepath) {
     os.Remove(filepath)
   }
 }
 
 // ================================================
 func (s *Scope) save() {
-  jsonBytes, err := json.Marshal(s.data)
-  LogError(err)
-
-  err = os.WriteFile(s.path, jsonBytes, 0644)
-  LogErrorAndPanic(err)
+  jsonfile.Save(s.path, s.data)
 }
 
 func (s *Scope) load() {
-  jsonBytes, err := os.ReadFile(s.path)
-  LogErrorAndPanic(err)
-
-  var data map[string] string
-
-  err = json.Unmarshal(jsonBytes, &data)
-  LogErrorAndPanic(err)
-
+  data := jsonfile.Load(s.path)
   s.data = data
 }
 
 func (s *Scope) tryLoad() {
-  if FileExists(s.path) {
+  if utils.FileExists(s.path) {
     s.load()
   }
 }

@@ -1,10 +1,11 @@
-package cmd
+package varcmd
 
 import (
   "fmt"
   "os"
   "errors"
   "almadash/varc/utils"
+  "almadash/varc/controller/scopecon"
 )
 
 // ================================================
@@ -26,7 +27,7 @@ func (c *KeysCmd) Run(options []string) {
     utils.LogErrorAndPanic(errors.New("scopeName not provided"))
   }
 
-  scope := utils.NewScope(scopeName)
+  scope := scopecon.NewScope(scopeName)
 
   values := scope.GetKeys()
   bytes := utils.StringListToBytes(values)

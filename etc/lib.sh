@@ -33,6 +33,10 @@ function logtest () {
 # ===================================
 function getvar () {
   local varname="$1"
+  if [ -z "$varname" ]; then
+    echo "[Error]: variable name not provided"
+    return 1
+  fi
 
   # ===================================
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
@@ -43,13 +47,8 @@ function getvar () {
   local DIST_DIR="$PROJECT_ROOT/dist"
   local ETC_DIR="$PROJECT_ROOT/etc"
 
-  local VERBOSE="true"
-
   # ===================================
-  if [ -z "$varname" ]; then
-    echo "[Error]: variable name not provided"
-    return 1
-  elif [ "${!varname-unset}" = "unset" ]; then
+  if [ "${!varname-unset}" = "unset" ]; then
     echo "[Error]: variable '$varname' is not set"
     return 1
   fi
@@ -63,7 +62,7 @@ function getvar () {
 
 # ===================================
 function checkverbose () {
-  local verbose=$(getvar "VERBOSE")
+  local verbose="true"
   if [ "$verbose" = "true" ]; then
     set -x
   fi

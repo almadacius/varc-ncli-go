@@ -1,10 +1,11 @@
-package cmd
+package varcmd
 
 import (
   "fmt"
   "os"
   "errors"
   "almadash/varc/utils"
+  "almadash/varc/controller/scopecon"
 )
 
 // ================================================
@@ -26,6 +27,6 @@ func (c *DelCmd) Run(options []string) {
     utils.LogErrorAndPanic(errors.New("scopeName not provided"))
   }
 
-  scope := utils.NewScope(scopeName)
+  scope := scopecon.NewScope(scopeName)
   scope.Delete()
 }

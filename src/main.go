@@ -4,7 +4,8 @@ import (
   "flag"
   "fmt"
   "os"
-  "almadash/varc/cmd"
+  "almadash/varc/cmd/varcmd"
+  "almadash/varc/cmd/timercmd"
 )
 
 // ================================================
@@ -21,24 +22,30 @@ func main() {
   options := os.Args[2:]
 
   switch cmdName {
+  // variable management
   case "set":
-    cmd := cmd.SetCmd{}
+    cmd := varcmd.SetCmd{}
     cmd.Run(options)
   case "unset":
-    cmd := cmd.UnsetCmd{}
+    cmd := varcmd.UnsetCmd{}
     cmd.Run(options)
   case "get":
-    cmd := cmd.GetCmd{}
+    cmd := varcmd.GetCmd{}
     cmd.Run(options)
   case "keys":
-    cmd := cmd.KeysCmd{}
+    cmd := varcmd.KeysCmd{}
     cmd.Run(options)
   case "scopes":
-    cmd := cmd.ScopesCmd{}
+    cmd := varcmd.ScopesCmd{}
     cmd.Run(options)
   case "del":
-    cmd := cmd.DelCmd{}
+    cmd := varcmd.DelCmd{}
     cmd.Run(options)
+
+  case "timercreate":
+    cmd := timercmd.TimerCreateCmd{}
+    cmd.Run(options)
+
   default:
     fmt.Println("command is not supported: ", cmdName)
     flag.PrintDefaults()

@@ -43,6 +43,8 @@ function getvar () {
   local DIST_DIR="$PROJECT_ROOT/dist"
   local ETC_DIR="$PROJECT_ROOT/etc"
 
+  local VERBOSE="true"
+
   # ===================================
   if [ -z "$varname" ]; then
     echo "[Error]: variable name not provided"
@@ -60,6 +62,13 @@ function getvar () {
 }
 
 # ===================================
+function checkverbose () {
+  local verbose=$(getvar "VERBOSE")
+  if [ "$verbose" = "true" ]; then
+    set -x
+  fi
+}
+
 function buildApp () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 

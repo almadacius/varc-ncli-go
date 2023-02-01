@@ -7,7 +7,7 @@ function test1 () {
 
   logtest "test 1"
 
-  buildApp
+  checkverbose
 
   # ===================================
   local buildDir=$(getvar "BUILD_DIR")

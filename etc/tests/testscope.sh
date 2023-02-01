@@ -7,7 +7,7 @@ function testscope () {
 
   logtest "test scope"
 
-  buildApp
+  checkverbose
 
   # ===================================
   local buildDir=$(getvar "BUILD_DIR")

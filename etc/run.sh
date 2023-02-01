@@ -6,13 +6,20 @@ set -e
 function main() {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
+  . "$HERE/lib.sh"
+
+  buildApp
+
+  # ===================================
   . "$HERE/tests/runlocal.sh"
   . "$HERE/tests/test1.sh"
   . "$HERE/tests/testscope.sh"
+  . "$HERE/tests/testtimer.sh"
 
   # runlocal
   # test1
-  testscope
+  # testscope
+  testtimer
 }
 
 # ===================================

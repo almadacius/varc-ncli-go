@@ -5,14 +5,14 @@ function test1 () {
 
   . "$HERE/../lib.sh"
 
-  logtest "test 1"  
+  logtest "test 1"
 
   buildApp
 
   # ===================================
-  local outDir=$(getvar "DIST_DIR")
+  local buildDir=$(getvar "BUILD_DIR")
 
-  cd "$outDir"
+  cd "$buildDir"
 
   ./varcgo set "far.bring" "new-val"
   ./varcgo set "far.it" "incredible"

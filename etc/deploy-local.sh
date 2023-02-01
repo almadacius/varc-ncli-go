@@ -2,21 +2,18 @@
 
 set -e
 
+# copy build version to deploy dir for actual usage
 function main () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
   . "$HERE/lib.sh"
 
-  local srcDir=$(getvar "SRC_DIR")
   local buildDir=$(getvar "BUILD_DIR")
+  local distDir=$(getvar "DIST_DIR")
 
-  local output="$buildDir/varcgo"
+  mkdir -p "$distDir"
 
-  mkdir -p "$buildDir"
-
-  cd "$srcDir"
-
-  go build -o "$output" main.go
+  cp "$buildDir/varcgo" "$distDir/varcgo"
 }
 
 ( main $@ )

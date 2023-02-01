@@ -39,6 +39,7 @@ function getvar () {
   local PROJECT_ROOT=$(cd "$HERE/.." && pwd -P)
 
   local SRC_DIR="$PROJECT_ROOT/src"
+  local BUILD_DIR="$PROJECT_ROOT/build"
   local DIST_DIR="$PROJECT_ROOT/dist"
   local ETC_DIR="$PROJECT_ROOT/etc"
 
@@ -69,3 +70,6 @@ function buildApp () {
   logbold
   logempty
 }
+
+# ===================================
+echo "load lib"

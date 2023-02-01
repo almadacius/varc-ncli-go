@@ -10,9 +10,9 @@
   },
   "scripts": {
     "start": "etc/run.sh",
-    "rundist": "etc/run-dist.sh",
     "dev": "etc/watch.sh",
-    "build": "etc/build.sh"
+    "build": "etc/build.sh",
+    "deploy:local": "etc/deploy-local.sh"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

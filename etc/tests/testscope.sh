@@ -10,9 +10,9 @@ function testscope () {
   buildApp
 
   # ===================================
-  local outDir=$(getvar "DIST_DIR")
+  local buildDir=$(getvar "BUILD_DIR")
 
-  cd "$outDir"
+  cd "$buildDir"
 
   time (
     local out

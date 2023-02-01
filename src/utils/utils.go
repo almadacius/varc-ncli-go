@@ -6,6 +6,7 @@ import (
   "fmt"
   "log"
   "strings"
+  "path/filepath"
 )
 
 // ================================================
@@ -51,6 +52,9 @@ func GetDirname() string {
     fmt.Println("Failed to get program path")
     os.Exit(1)
   }
+
+  execPath, err = filepath.EvalSymlinks(execPath)
+  LogErrorAndPanic(err)
 
   dir := path.Dir(execPath)
 

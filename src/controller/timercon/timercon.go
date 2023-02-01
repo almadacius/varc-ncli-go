@@ -10,6 +10,47 @@ import (
 )
 
 // ================================================
+func strToTime(key string) time.Time {
+  num, err := strconv.ParseInt(key, 10, 0)
+  utils.LogErrorAndPanic(err)
+  timeinst := time.Unix(num, 0)
+
+  return timeinst
+}
+
+func load() map[string] string {
+  path := utils.GetTimerFile()
+
+  data := make(map[string] string)
+  if utils.FileExists(path) {
+    data = jsonfile.Load(path)
+  }
+
+  return data
+}
+
+// ================================================
+func PruneOldStamps() {
+  path := utils.GetTimerFile()
+
+  now := time.Now()
+  day := time.Hour * 24
+
+  yesterday := now.Add(-day)
+
+  data := load()
+
+  for key, _ := range data {
+    stamp := strToTime(key)
+    if stamp.Before(yesterday) {
+      delete(data, key)
+    }
+  }
+
+  jsonfile.Save(path, data)
+}
+
+// ================================================
 /*
   @behav - automatically clears out any lingering timers that are older
     than a day to keep clean and simple
@@ -54,11 +95,7 @@ func FromKey(key string) Timer {
 
 // ================================================
 func (t *Timer) getKeyAsTime() time.Time {
-  num, err := strconv.ParseInt(t.key, 10, 0)
-  utils.LogErrorAndPanic(err)
-  timeinst := time.Unix(num, 0)
-
-  return timeinst
+  return strToTime(t.key)
 }
 
 func (t *Timer) GetKey() string {
@@ -66,16 +103,16 @@ func (t *Timer) GetKey() string {
 }
 
 // ================================================
-func (t *Timer) Step() time.Duration {
+func (t *Timer) Step() string {
   t1 := t.getKeyAsTime()
   t2 := time.Now()
 
   diff := t2.Sub(t1)
 
-  return diff
+  return diff.String()
 }
 
-func (t *Timer) End() time.Duration {
+func (t *Timer) End() string {
   t.clearFromFile()
 
   return t.Step()
@@ -83,7 +120,7 @@ func (t *Timer) End() time.Duration {
 
 // ================================================
 func (t *Timer) persist() {
-  data := t.load()
+  data := load()
 
   data[t.key] = ""
 
@@ -91,7 +128,7 @@ func (t *Timer) persist() {
 }
 
 func (t *Timer) clearFromFile() {
-  data := t.load()
+  data := load()
 
   delete(data, t.key)
 
@@ -99,19 +136,9 @@ func (t *Timer) clearFromFile() {
 }
 
 func (t *Timer) keyExists() bool {
-  data := t.load()
+  data := load()
 
   _, exists := data[t.key]
 
   return exists
-}
-
-// ================================================
-func (t *Timer) load() map[string] string {
-  data := make(map[string] string)
-  if utils.FileExists(t.path) {
-    data = jsonfile.Load(t.path)
-  }
-
-  return data
 }

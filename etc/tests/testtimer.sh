@@ -40,5 +40,7 @@ function testtimer () {
     logbold
     echo "end: $out"
     logbold
+
+    ./varcgo timerprune
   )
 }

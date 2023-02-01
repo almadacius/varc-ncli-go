@@ -45,6 +45,15 @@ func main() {
   case "timercreate":
     cmd := timercmd.TimerCreateCmd{}
     cmd.Run(options)
+  case "timerstep":
+    cmd := timercmd.TimerStepCmd{}
+    cmd.Run(options)
+  case "timerend":
+    cmd := timercmd.TimerEndCmd{}
+    cmd.Run(options)
+  case "timerprune":
+    cmd := timercmd.TimerPruneCmd{}
+    cmd.Run(options)
 
   default:
     fmt.Println("command is not supported: ", cmdName)

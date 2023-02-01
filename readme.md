@@ -43,6 +43,7 @@ these were runs of a single console log command on different technologies.
   varc timerstep <timerkey> -> hft - time elapsed since start of timer
   // > @desc - close the timer session for this key
   varc timerend <timerkey> -> hft - total time elapsed
+  varc timerprune - clear stamps older than a day
 ```
 
 ---

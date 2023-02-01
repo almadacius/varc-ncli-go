@@ -62,7 +62,8 @@ function getvar () {
 
 # ===================================
 function checkverbose () {
-  local verbose="true"
+  local verbose="false"
+  # verbose="true"
   if [ "$verbose" = "true" ]; then
     set -x
   fi

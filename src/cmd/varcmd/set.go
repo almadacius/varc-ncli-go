@@ -25,10 +25,11 @@ func (c *SetCmd) Run(options []string) {
   newValue := options[1]
 
   if scopePath == "" {
-    utils.LogErrorAndPanic(errors.New("scopePath not provided"))
+    utils.LogErrorAndPanic(errors.New("[set var]: scopePath not provided"))
   }
   if newValue == "" {
-    utils.LogErrorAndPanic(errors.New("value not provided"))
+    message := fmt.Sprintf("[set var '%s']: value not provided", scopePath)
+    utils.LogErrorAndPanic(errors.New(message))
   }
 
   scopeName, varName := scopecon.ParseScope(scopePath)

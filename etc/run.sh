@@ -18,8 +18,8 @@ function main() {
 
   # runlocal
   # test1
-  # testscope
-  testtimer
+  testscope
+  # testtimer
 }
 
 # ===================================

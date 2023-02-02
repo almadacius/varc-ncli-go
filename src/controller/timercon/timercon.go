@@ -10,12 +10,14 @@ import (
 )
 
 // ================================================
-func strToTime(key string) time.Time {
-  num, err := strconv.ParseInt(key, 10, 0)
-  utils.LogErrorAndPanic(err)
-  timeinst := time.Unix(num, 0)
+func getNow() time.Time {
+  return time.Now()
+}
 
-  return timeinst
+func getTimestamp() string {
+  number := getNow().UnixMilli()
+  stamp := strconv.FormatInt(number, 10)
+  return stamp
 }
 
 func load() map[string] string {
@@ -29,6 +31,46 @@ func load() map[string] string {
   return data
 }
 
+func strToTime(key string) time.Time {
+  num, err := strconv.ParseInt(key, 10, 64)
+  utils.LogErrorAndPanic(err)
+  timeinst := time.UnixMilli(num)
+
+  return timeinst
+}
+
+func strToInt(val string) int64 {
+  num, err := strconv.ParseInt(val, 10, 0)
+  utils.LogErrorAndPanic(err)
+  return num
+}
+
+func intToStr(val int64) string {
+  return strconv.FormatInt(val, 10)
+}
+
+func getNext() string {
+  path := utils.GetTimerFile()
+
+  data := load()
+  next := int64(0)
+
+  currNext, hasNext := data["_next"]
+  if hasNext {
+    next = strToInt(currNext)
+  }
+
+  newNext := next + 1
+  if newNext > 100000 {
+    newNext = 0
+  }
+
+  data["_next"] = intToStr(newNext)
+  jsonfile.Save(path, data)
+
+  return intToStr(next)
+}
+
 // ================================================
 func PruneOldStamps() {
   path := utils.GetTimerFile()
@@ -40,8 +82,8 @@ func PruneOldStamps() {
 
   data := load()
 
-  for key, _ := range data {
-    stamp := strToTime(key)
+  for key, value := range data {
+    stamp := strToTime(value)
     if stamp.Before(yesterday) {
       delete(data, key)
     }
@@ -58,6 +100,7 @@ func PruneOldStamps() {
 type Timer struct {
   key string
   path string
+  startTime string
 }
 
 // ================================================
@@ -72,7 +115,8 @@ func createBaseTimer() Timer {
 
 func CreateNew() Timer {
   timer := createBaseTimer()
-  timer.key = strconv.FormatInt(time.Now().Unix(), 10)
+  timer.key = getNext()
+  timer.startTime = getTimestamp()
 
   timer.persist()
 
@@ -83,19 +127,14 @@ func FromKey(key string) Timer {
   timer := createBaseTimer()
   timer.key = key
 
-  exists := timer.keyExists()
-
-  if ! exists {
-    message := fmt.Sprintf("timerkey does not exist: %s", key)
-    utils.LogErrorAndPanic(errors.New(message))
-  }
+  timer.loadStartTime()
 
   return timer
 }
 
 // ================================================
-func (t *Timer) getKeyAsTime() time.Time {
-  return strToTime(t.key)
+func (t *Timer) getStartTimeAsTime() time.Time {
+  return strToTime(t.startTime)
 }
 
 func (t *Timer) GetKey() string {
@@ -104,8 +143,8 @@ func (t *Timer) GetKey() string {
 
 // ================================================
 func (t *Timer) Step() string {
-  t1 := t.getKeyAsTime()
-  t2 := time.Now()
+  t1 := t.getStartTimeAsTime()
+  t2 := getNow()
 
   diff := t2.Sub(t1)
 
@@ -122,7 +161,7 @@ func (t *Timer) End() string {
 func (t *Timer) persist() {
   data := load()
 
-  data[t.key] = ""
+  data[t.key] = t.startTime
 
   jsonfile.Save(t.path, data)
 }
@@ -135,10 +174,15 @@ func (t *Timer) clearFromFile() {
   jsonfile.Save(t.path, data)
 }
 
-func (t *Timer) keyExists() bool {
+func (t *Timer) loadStartTime() {
   data := load()
 
-  _, exists := data[t.key]
+  startTime, exists := data[t.key]
 
-  return exists
+  if ! exists {
+    message := fmt.Sprintf("timerkey does not exist: %s", t.key)
+    utils.LogErrorAndPanic(errors.New(message))
+  }
+
+  t.startTime = startTime
 }

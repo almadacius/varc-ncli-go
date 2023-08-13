@@ -1,5 +1,5 @@
 {
-  "name": "@almadash/varc-go-ncli",
+  "name": "@almadash/varc-ncli-go",
   "description": "helper for Bash state management, golang",
   "version": "0.2.2",
   "author": "Almadash",

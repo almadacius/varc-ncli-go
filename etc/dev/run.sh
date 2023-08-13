@@ -6,7 +6,7 @@ set -e
 function main() {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/lib.sh"
+  . "$HERE/../lib.sh"
 
   buildApp
 

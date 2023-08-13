@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-set -e
-
 # copy build version to deploy dir for actual usage
 function main () {
+  set -e
+
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/lib.sh"
+  . "$HERE/../lib.sh"
 
   local buildDir=$(getvar "BUILD_DIR")
   local distDir=$(getvar "DIST_DIR")

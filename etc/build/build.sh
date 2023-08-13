@@ -5,7 +5,7 @@ set -e
 function main () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/lib.sh"
+  . "$HERE/../lib.sh"
 
   local srcDir=$(getvar "SRC_DIR")
   local buildDir=$(getvar "BUILD_DIR")

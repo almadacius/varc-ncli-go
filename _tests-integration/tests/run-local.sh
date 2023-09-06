@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# this is currently @BROKEN, `test-vars` is the main dev scenario
 function runtest () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 

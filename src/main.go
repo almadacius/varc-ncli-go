@@ -33,6 +33,7 @@ func main() {
   case "scopes": cmd = &varcmd.ScopesCmd{}
   case "del": cmd = &varcmd.DelCmd{}
 
+  // timer management
   case "timercreate": cmd = &timercmd.TimerCreateCmd{}
   case "timerstep": cmd = &timercmd.TimerStepCmd{}
   case "timerend": cmd = &timercmd.TimerEndCmd{}

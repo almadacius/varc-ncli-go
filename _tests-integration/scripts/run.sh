@@ -2,10 +2,11 @@
 
 # ===================================
 function getTest () {
-  # echo "runlocal.sh"
-  echo "test1.sh"
-  # echo "testscope.sh"
-  # echo "testtimer.sh"
+  # echo "run-local.sh"
+  # echo "test-vars.sh"
+  # echo "test-scope.sh"
+  # echo "test-timer.sh"
+  echo "file-lock.sh"
 }
 
 # ===================================

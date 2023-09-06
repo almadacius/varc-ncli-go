@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
-set -e
-
 function main () {
+  set -e
+
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
-  local projRoot=$(cd "$HERE/.." && pwd -P)
+
+  . "$HERE/../../etc/lib/lib.sh"
+
+  local projRoot=$(getvar "projRoot")
 
   cd "$projRoot"
 
   nodemon \
     --config "$HERE/nodemon.json" \
-    etc/run.sh
+    "$HERE/run.sh"
 }
 
 ( main $@ )

@@ -5,18 +5,17 @@ function main () {
 
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib/lib.sh"
-
-  setTargetLinux64
+  . "$HERE/../../etc/lib/lib.sh"
 
   local srcDir=$(getvar "srcDir")
-  local distDir=$(getvar "outputDirArch")
-  
-  local output="$distDir/varcgo"
-  mkdir -p "$distDir"
+  local buildDir=$(getvar "buildDir")
 
-  # ===================================
+  local output="$buildDir/varcgo"
+
+  mkdir -p "$buildDir"
+
   cd "$srcDir"
+
   go build -o "$output" main.go
 }
 

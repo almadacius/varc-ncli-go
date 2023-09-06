@@ -9,8 +9,8 @@
     "varc": "dist/varcgo"
   },
   "scripts": {
-    "start": "etc/dev/run.sh",
-    "dev": "etc/dev/watch.sh",
+    "start": "_tests-integration/scripts/run.sh",
+    "dev": "_tests-integration/scripts/watch.sh",
     "==========================================================1": "",
     "                      build                               1": "",
     "==========================================================1b": "",

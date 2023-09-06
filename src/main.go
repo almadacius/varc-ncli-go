@@ -6,6 +6,7 @@ import (
   "os"
   "almadash/varc/cmd/varcmd"
   "almadash/varc/cmd/timercmd"
+  "almadash/varc/utils"
 )
 
 // ================================================
@@ -21,19 +22,21 @@ func main() {
   cmdName := os.Args[1]
   options := os.Args[2:]
 
+  var cmd utils.Command
+
   switch cmdName {
   // variable management
-  case "set": cmd := varcmd.SetCmd{}
-  case "unset": cmd := varcmd.UnsetCmd{}
-  case "get": cmd := varcmd.GetCmd{}
-  case "keys": cmd := varcmd.KeysCmd{}
-  case "scopes": cmd := varcmd.ScopesCmd{}
-  case "del": cmd := varcmd.DelCmd{}
+  case "set": cmd = &varcmd.SetCmd{}
+  case "unset": cmd = &varcmd.UnsetCmd{}
+  case "get": cmd = &varcmd.GetCmd{}
+  case "keys": cmd = &varcmd.KeysCmd{}
+  case "scopes": cmd = &varcmd.ScopesCmd{}
+  case "del": cmd = &varcmd.DelCmd{}
 
-  case "timercreate": cmd := timercmd.TimerCreateCmd{}
-  case "timerstep": cmd := timercmd.TimerStepCmd{}
-  case "timerend": cmd := timercmd.TimerEndCmd{}
-  case "timerprune": cmd := timercmd.TimerPruneCmd{}
+  case "timercreate": cmd = &timercmd.TimerCreateCmd{}
+  case "timerstep": cmd = &timercmd.TimerStepCmd{}
+  case "timerend": cmd = &timercmd.TimerEndCmd{}
+  case "timerprune": cmd = &timercmd.TimerPruneCmd{}
 
   default:
     fmt.Println("command is not supported: ", cmdName)

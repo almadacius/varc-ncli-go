@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-set -e
-
 function main () {
+  set -e
+
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../lib/lib.sh"
 
-  local srcDir=$(getvar "SRC_DIR")
-  local buildDir=$(getvar "BUILD_DIR")
+  local srcDir=$(getvar "srcDir")
+  local buildDir=$(getvar "buildDir")
 
   local output="$buildDir/varcgo"
 

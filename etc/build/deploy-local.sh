@@ -6,10 +6,10 @@ function main () {
 
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../lib/lib.sh"
 
-  local buildDir=$(getvar "BUILD_DIR")
-  local distDir=$(getvar "DIST_DIR")
+  local buildDir=$(getvar "buildDir")
+  local distDir=$(getvar "distDir")
 
   mkdir -p "$distDir"
 

@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
-set -e
-
 function main () {
+  set -e
+
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../lib/lib.sh"
 
-  local srcDir=$(getvar "SRC_DIR")
-  local distDir=$(getvar "DIST_DIR")
+  setTargetLinuxArm
 
-  export GOOS="linux" GOARCH="arm"
-
-  distDir="$distDir/$GOOS-$GOARCH"
+  local srcDir=$(getvar "srcDir")
+  local distDir=$(getvar "outputDirArch")
+  
   local output="$distDir/varcgo"
   mkdir -p "$distDir"
 

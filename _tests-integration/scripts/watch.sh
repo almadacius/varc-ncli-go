@@ -11,9 +11,8 @@ function main () {
 
   cd "$projRoot"
 
-  nodemon \
-    --config "$HERE/nodemon.json" \
-    "$HERE/run.sh"
+  export APP_MODE_='dev'
+  npx almonitor "$HERE/run.sh"
 }
 
 ( main $@ )

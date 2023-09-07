@@ -20,10 +20,14 @@ function includeBinPath () {
 
 # ===================================
 function buildApp () {
-  local scriptDir=$(getvar "scriptDir")
+  local buildScriptDir=$(getvar "buildScriptDir")
+
+  logheader "generate meta"
+  time node "$buildScriptDir/genVersionSource.js"
 
   logheader "build app"
-  time source "$scriptDir/build.sh"
+  time source "$buildScriptDir/build.sh"
+
   logbold
   logempty
 }

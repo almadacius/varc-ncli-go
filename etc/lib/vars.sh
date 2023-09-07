@@ -19,6 +19,7 @@ function getvar () {
   local etcDir="$projRoot/etc"
   local libDir="$projRoot/etc/lib"
 
+  local buildScriptDir="$projRoot/etc/build"
   local scriptDir="$projRoot/_tests-integration/scripts"
 
   local outputDirArch="$distDir/$GOOS-$GOARCH"

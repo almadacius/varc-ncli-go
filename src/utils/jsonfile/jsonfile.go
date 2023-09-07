@@ -29,6 +29,7 @@ func Load(path string) map[string]string {
   utils.LogError(err)
   // file is broken, reset it for now
   if err != nil {
+    utils.LogInfo("error reading data, reset file")
     data = Reset(path)
   }
 

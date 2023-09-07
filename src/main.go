@@ -6,6 +6,7 @@ import (
   "os"
   "almadash/varc/cmd/varcmd"
   "almadash/varc/cmd/timercmd"
+  "almadash/varc/cmd/othercmd"
   "almadash/varc/utils"
 )
 
@@ -25,6 +26,9 @@ func main() {
   var cmd utils.Command
 
   switch cmdName {
+  // other
+  case "version": cmd = &othercmd.VersionCmd{}
+
   // variable management
   case "set": cmd = &varcmd.SetCmd{}
   case "unset": cmd = &varcmd.UnsetCmd{}

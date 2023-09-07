@@ -1,3 +1,6 @@
 {
-  "restartOnSuccess": false
+  "restartOnSuccess": false,
+  "ignorePatterns": [
+    "src/auto/"
+  ]
 }

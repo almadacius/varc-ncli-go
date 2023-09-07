@@ -23,6 +23,8 @@ function main () {
 
   . "$HERE/../lib/lib.sh"
 
+  buildGenerateMeta
+
   (
     logheader "target: linux-arm"
     setTargetLinuxArm

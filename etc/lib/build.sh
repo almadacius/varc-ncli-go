@@ -24,11 +24,17 @@ function includeBinPath () {
 }
 
 # ===================================
-function buildApp () {
+function buildGenerateMeta () {
   local buildScriptDir=$(getvar "buildScriptDir")
 
   logheader "generate meta"
   time node "$buildScriptDir/genVersionSource.js"
+}
+
+function buildApp () {
+  local buildScriptDir=$(getvar "buildScriptDir")
+
+  buildGenerateMeta
 
   logheader "build app"
   time source "$buildScriptDir/build-local.sh"

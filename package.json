@@ -18,7 +18,10 @@
     "deploy:local": "etc/build/deploy-local.sh"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@almadash/almonitor": "git+ssh://git@bitbucket.org:almadash/almonitor#0.4.1"
   },
-  "keywords": []
+  "keywords": [],
+  "almadash": {
+    "almonitor": "config/almonitor.json"
+  }
 }

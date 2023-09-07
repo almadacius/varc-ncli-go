@@ -1,26 +1,24 @@
 #!/usr/bin/env bash
 
-function testscope () {
+function runtest () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../../etc/lib/lib.sh"
 
   logtest "test scope"
 
-  checkverbose
+  # ===================================
+  checkVerbose
+  includeBinPath
 
   # ===================================
-  local buildDir=$(getvar "BUILD_DIR")
-
-  cd "$buildDir"
-
   time (
     local out
 
     logheader "set far.bring"
-    ./varcgo set "far.bring" "new-val"
+    varcgo set "far.bring" "new-val"
 
-    out=$(./varcgo scopes)
+    out=$(varcgo scopes)
     logbold
     echo "scopes"
     logline
@@ -28,9 +26,9 @@ function testscope () {
     logbold
 
     logheader "delete scope: far"
-    out=$(./varcgo del "far")
+    out=$(varcgo del "far")
 
-    out=$(./varcgo scopes)
+    out=$(varcgo scopes)
     logbold
     echo "scopes"
     logline

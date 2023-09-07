@@ -1,46 +1,44 @@
 #!/usr/bin/env bash
 
-function testtimer () {
+function runtest () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../../etc/lib/lib.sh"
 
   logtest "test scope"
 
-  checkverbose
+  # ===================================
+  checkVerbose
+  includeBinPath
 
   # ===================================
-  local buildDir=$(getvar "BUILD_DIR")
-
-  cd "$buildDir"
-
   time (
     local timerkey
     local out
 
     logheader "create timer"
-    timerkey=$(./varcgo timercreate)
+    timerkey=$(varcgo timercreate)
     logbold
     echo "timerkey: $timerkey"
     logbold
 
-    out=$(./varcgo timerstep "$timerkey")
+    out=$(varcgo timerstep "$timerkey")
     logbold
     echo "step: $out"
     logbold
 
     sleep 2
 
-    out=$(./varcgo timerstep "$timerkey")
+    out=$(varcgo timerstep "$timerkey")
     logbold
     echo "step: $out"
     logbold
 
-    out=$(./varcgo timerend "$timerkey")
+    out=$(varcgo timerend "$timerkey")
     logbold
     echo "end: $out"
     logbold
 
-    ./varcgo timerprune
+    varcgo timerprune
   )
 }

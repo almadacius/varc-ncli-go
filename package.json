@@ -9,13 +9,20 @@
     "varc": "dist/varcgo"
   },
   "scripts": {
-    "start": "etc/run.sh",
-    "dev": "etc/watch.sh",
-    "build": "etc/build.sh",
-    "deploy:local": "etc/deploy-local.sh"
+    "start": "_tests-integration/scripts/run.sh",
+    "dev": "_tests-integration/scripts/watch.sh",
+    "==========================================================1": "",
+    "                      build                               1": "",
+    "==========================================================1b": "",
+    "build": "etc/build/build-local.sh",
+    "build:full": "etc/build/build-full.sh",
+    "deploy:local": "etc/build/deploy-local.sh"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@almadash/almonitor": "git+ssh://git@bitbucket.org:almadash/almonitor#0.4.1"
   },
-  "keywords": []
+  "keywords": [],
+  "almadash": {
+    "almonitor": "config/almonitor.json"
+  }
 }

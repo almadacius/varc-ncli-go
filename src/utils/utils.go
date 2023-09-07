@@ -81,6 +81,10 @@ func GetTimerFile() string {
 }
 
 // ================================================
+func LogInfo(message string) {
+  fmt.Println("[info]: ", message)
+}
+
 func LogError(err error) {
   if err != nil {
     fmt.Println("[Error]: ", err)

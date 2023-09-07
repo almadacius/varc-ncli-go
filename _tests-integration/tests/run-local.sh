@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-function runlocal () {
+# this is currently @BROKEN, `test-vars` is the main dev scenario
+function runtest () {
   local HERE=$(cd $(dirname $BASH_SOURCE) && pwd -P)
 
-  . "$HERE/../lib.sh"
+  . "$HERE/../../etc/lib/lib.sh"
 
   logtest "run local"
 
-  local srcDir=$(getvar "SRC_DIR")
+  local srcDir=$(getvar "srcDir")
 
   cd "$srcDir"
 

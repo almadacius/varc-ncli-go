@@ -12,6 +12,11 @@ function setTargetLinux64 () {
   export GOARCH="amd64"
 }
 
+function setTargetDarwin64 () {
+  export GOOS="darwin"
+  export GOARCH="amd64"
+}
+
 # ===================================
 function includeBinPath () {
   local buildDir=$(getvar "buildDir")
@@ -26,7 +31,7 @@ function buildApp () {
   time node "$buildScriptDir/genVersionSource.js"
 
   logheader "build app"
-  time source "$buildScriptDir/build.sh"
+  time source "$buildScriptDir/build-local.sh"
 
   logbold
   logempty

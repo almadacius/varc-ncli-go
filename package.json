@@ -14,7 +14,8 @@
     "==========================================================1": "",
     "                      build                               1": "",
     "==========================================================1b": "",
-    "build": "etc/build/build.sh",
+    "build": "etc/build/build-local.sh",
+    "build:full": "etc/build/build-full.sh",
     "deploy:local": "etc/build/deploy-local.sh"
   },
   "devDependencies": {

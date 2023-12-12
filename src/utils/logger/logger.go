@@ -18,6 +18,11 @@ func LogError(err error) {
   }
 }
 
+func LogWarn(msg string) {
+  fmt.Fprintf(os.Stderr, "[warn]: %s\n", msg)  
+}
+
+// ================================================
 func LogErrorAndPanic(err error) {
   if err != nil {
     LogError(err)

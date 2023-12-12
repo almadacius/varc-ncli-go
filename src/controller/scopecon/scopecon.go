@@ -6,6 +6,7 @@ import (
   "regexp"
   "io/ioutil"
   "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/utils/jsonfile"
 )
 
@@ -33,7 +34,7 @@ func ListScopes() []string {
   scopeDir := utils.GetStorageDir()
 
   files, err := ioutil.ReadDir(scopeDir)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 
   filenames := []string{}
   for _, f := range files {

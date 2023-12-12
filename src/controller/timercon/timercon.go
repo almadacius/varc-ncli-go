@@ -6,6 +6,7 @@ import (
   "time"
   "strconv"
   "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/utils/jsonfile"
 )
 
@@ -33,7 +34,7 @@ func load() map[string] string {
 
 func strToTime(key string) time.Time {
   num, err := strconv.ParseInt(key, 10, 64)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
   timeinst := time.UnixMilli(num)
 
   return timeinst
@@ -41,7 +42,7 @@ func strToTime(key string) time.Time {
 
 func strToInt(val string) int64 {
   num, err := strconv.ParseInt(val, 10, 0)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
   return num
 }
 
@@ -181,7 +182,7 @@ func (t *Timer) loadStartTime() {
 
   if ! exists {
     message := fmt.Sprintf("timerkey does not exist: %s", t.key)
-    utils.LogErrorAndPanic(errors.New(message))
+    logger.LogErrorAndPanic(errors.New(message))
   }
 
   t.startTime = startTime

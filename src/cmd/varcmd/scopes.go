@@ -2,7 +2,7 @@ package varcmd
 
 import (
   "os"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/scopecon"
 )
 
@@ -16,7 +16,7 @@ func (c *ScopesCmd) Declare() {
 func (c *ScopesCmd) Run(options []string) {
   scopes := scopecon.ListScopes()
 
-  bytes := utils.StringListToBytes(scopes)
+  bytes := logger.StringListToBytes(scopes)
 
   os.Stdout.Write(bytes)
 }

@@ -13,10 +13,10 @@ import (
 // ================================================
 func main() {
   // Verify that a subcommand has been provided
-  // os.Arg[0] is the main command
-  // os.Arg[1] will be the subcommand
+  // os.Arg[0] is the main exec (varcgo)
+  // os.Arg[1] will be the subcommand (get/set)
   if len(os.Args) < 2 {
-    fmt.Println("get subcommand is required")
+    fmt.Println("[error]: subcommand is required")
     os.Exit(1)
   }
 

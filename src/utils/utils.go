@@ -3,10 +3,9 @@ package utils
 import (
   "os"
   "path"
-  "fmt"
-  "log"
-  "strings"
   "path/filepath"
+  "fmt"
+  "almadash/varc/utils/logger"
 )
 
 // ================================================
@@ -54,7 +53,7 @@ func GetDirname() string {
   }
 
   execPath, err = filepath.EvalSymlinks(execPath)
-  LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 
   dir := path.Dir(execPath)
 
@@ -78,36 +77,4 @@ func GetTimerFile() string {
   EnsureDir(timerDir)
 
   return timerFile
-}
-
-// ================================================
-func LogInfo(message string) {
-  fmt.Println("[info]: ", message)
-}
-
-func LogError(err error) {
-  if err != nil {
-    fmt.Println("[Error]: ", err)
-  }
-}
-
-func LogErrorAndPanic(err error) {
-  if err != nil {
-    fmt.Println("[Error]: ", err)
-    log.Fatal(err)
-    panic(err)
-  }
-}
-
-// ================================================
-func StringListToBytes(strs []string) []byte {
-  joined := strings.Join(strs, "\n")
-  bytes := []byte(joined)
-  return bytes
-}
-
-// ================================================
-func Output(data string) {
-  bytes := []byte(data)
-  os.Stdout.Write(bytes)
 }

@@ -4,7 +4,7 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/scopecon"
 )
 
@@ -24,7 +24,7 @@ func (c *DelCmd) Run(options []string) {
   scopeName := options[0]
 
   if scopeName == "" {
-    utils.LogErrorAndPanic(errors.New("scopeName not provided"))
+    logger.LogErrorAndPanic(errors.New("scopeName not provided"))
   }
 
   scope := scopecon.NewScope(scopeName)

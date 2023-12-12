@@ -3,13 +3,13 @@ package jsonfile
 import (
   "os"
   "encoding/json"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
 )
 
 // ================================================
 func Save(path string, data map[string]string) {
   jsonBytes, err := json.Marshal(data)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 
   writeFileWithLock(path, jsonBytes, 0644)
 }
@@ -26,10 +26,10 @@ func Load(path string) map[string]string {
   var data map[string] string
 
   err := json.Unmarshal(jsonBytes, &data)
-  utils.LogError(err)
+  logger.LogError(err)
   // file is broken, reset it for now
   if err != nil {
-    utils.LogInfo("error reading data, reset file")
+    logger.LogInfo("error reading data, reset file")
     data = Reset(path)
   }
 
@@ -50,7 +50,7 @@ func writeFileWithLock(path string, data []byte, mode os.FileMode) {
   defer file.Unlock()
 
   _, err := file.Write(data)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 }
 
 func readFileWithLock(path string) []byte {
@@ -63,7 +63,7 @@ func readFileWithLock(path string) []byte {
   // not really sure this is respecting the lock
   // still getting some eventual read errors on the tests
   data, err := os.ReadFile(path)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 
   return data
 }

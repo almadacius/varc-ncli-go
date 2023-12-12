@@ -4,7 +4,7 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/scopecon"
 )
 
@@ -24,13 +24,13 @@ func (c *KeysCmd) Run(options []string) {
   scopeName := options[0]
 
   if scopeName == "" {
-    utils.LogErrorAndPanic(errors.New("scopeName not provided"))
+    logger.LogErrorAndPanic(errors.New("scopeName not provided"))
   }
 
   scope := scopecon.NewScope(scopeName)
 
   values := scope.GetKeys()
-  bytes := utils.StringListToBytes(values)
+  bytes := logger.StringListToBytes(values)
 
   os.Stdout.Write(bytes)
 }

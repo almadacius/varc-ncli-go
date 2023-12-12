@@ -3,7 +3,7 @@ package jsonfile
 import (
   "os"
   "syscall"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
 )
 
 // ================================================
@@ -22,14 +22,14 @@ func CreateFile(path string) File {
 func (this *File) OpenWrite(mode os.FileMode) {
   flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
   file, err := os.OpenFile(this.path, flags, mode)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
   this.instance = file
 }
 
 func (this *File) OpenRead() {
   flags := os.O_RDONLY
   file, err := os.OpenFile(this.path, flags, 0444)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
   this.instance = file
 }
 
@@ -43,7 +43,7 @@ func (this *File) Lock() {
   fd := this.GetFd()
   // exclusive file lock
   err := syscall.Flock(fd, syscall.LOCK_EX)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
 }
 
 func (this *File) Unlock() {
@@ -67,6 +67,6 @@ func (this *File) Read() []byte {
   buffer := make([]byte, 1024)
   // first is amount of bytes read
   _, err := file.Read(buffer)
-  utils.LogErrorAndPanic(err)
+  logger.LogErrorAndPanic(err)
   return buffer
 }

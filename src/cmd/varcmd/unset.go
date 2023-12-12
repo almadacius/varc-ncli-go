@@ -4,7 +4,7 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/scopecon"
 )
 
@@ -24,7 +24,7 @@ func (c *UnsetCmd) Run(options []string) {
   scopePath := options[0]
 
   if scopePath == "" {
-    utils.LogErrorAndPanic(errors.New("scopePath not provided"))
+    logger.LogErrorAndPanic(errors.New("scopePath not provided"))
   }
 
   scopeName, varName := scopecon.ParseScope(scopePath)

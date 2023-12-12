@@ -3,8 +3,8 @@ package timercmd
 import (
   "fmt"
   "os"
-  "errors"  
-  "almadash/varc/utils"
+  "errors"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/timercon"
 )
 
@@ -22,11 +22,11 @@ func (c *TimerStepCmd) Run(options []string) {
   }
   timerkey := options[0]
   if timerkey == "" {
-    utils.LogErrorAndPanic(errors.New("timerkey not provided"))
+    logger.LogErrorAndPanic(errors.New("timerkey not provided"))
   }
 
   timer := timercon.FromKey(timerkey)
   diff := timer.Step()
 
-  utils.Output(diff)
+  logger.Output(diff)
 }

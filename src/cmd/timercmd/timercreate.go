@@ -1,7 +1,7 @@
 package timercmd
 
 import (
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
   "almadash/varc/controller/timercon"
 )
 
@@ -15,5 +15,5 @@ func (c *TimerCreateCmd) Declare() {
 func (c *TimerCreateCmd) Run(options []string) {
   timer := timercon.CreateNew()
 
-  utils.Output(timer.GetKey())
+  logger.Output(timer.GetKey())
 }

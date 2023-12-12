@@ -7,7 +7,8 @@ function getTest () {
   # echo "test-scope.sh"
   # echo "test-timer.sh"
   # echo "file-lock.sh"
-  echo "version.sh"
+  echo "test-lock2.sh"
+  # echo "version.sh"
 }
 
 # ===================================

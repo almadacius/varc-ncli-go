@@ -7,6 +7,37 @@ import (
 )
 
 // ================================================
+func writeFileWithLock(path string, data []byte, mode os.FileMode) {
+  file := CreateFile(path)
+  file.OpenWrite(mode)
+  defer file.Close()
+  file.Lock()
+  defer file.Unlock()
+
+  _, err := file.Write(data)
+  logger.LogErrorAndPanic(err)
+}
+
+func readFileWithLock(path string) []byte {
+  file := CreateFile(path)
+  file.OpenRead()
+  defer file.Close()
+  file.Lock()
+  defer file.Unlock()
+
+  // not really sure this is respecting the lock
+  // still getting some eventual read errors on the tests
+  data, err := os.ReadFile(path)
+  logger.LogErrorAndPanic(err)
+
+  return data
+}
+
+// ================================================
+/*
+  - file class with os level syscall based Lock
+  - still getting some file corruption with this approach
+*/
 type File struct {
   path string
   instance *os.File

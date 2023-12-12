@@ -28,6 +28,7 @@ func main() {
   switch cmdName {
   // other
   case "version": cmd = &othercmd.VersionCmd{}
+  case "testlock": cmd = &othercmd.TestLockCmd{}
 
   // variable management
   case "set": cmd = &varcmd.SetCmd{}

@@ -73,6 +73,16 @@ func NewScope(name string) Scope {
   return scope
 }
 
+/*
+  - use right after NewScope, as it has fresh loaded from disk
+*/
+func (s *Scope) SetVarIfChanged(key string, value string) {
+  currVal := s.GetVar(key)
+  // value didn't change, do nothing
+  if currVal == value { return }
+  s.SetVar(key, value)
+}
+
 func (s *Scope) SetVar(key string, value string) {
   s.data[key] = value
   s.save()

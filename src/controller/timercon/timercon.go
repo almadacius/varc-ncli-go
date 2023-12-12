@@ -5,7 +5,7 @@ import (
   "errors"
   "time"
   "strconv"
-  "almadash/varc/utils"
+  "almadash/varc/utils/fs"
   "almadash/varc/utils/logger"
   "almadash/varc/utils/jsonfile"
 )
@@ -22,10 +22,10 @@ func getTimestamp() string {
 }
 
 func load() map[string] string {
-  path := utils.GetTimerFile()
+  path := fs.GetTimerFile()
 
   data := make(map[string] string)
-  if utils.FileExists(path) {
+  if fs.FileExists(path) {
     data = jsonfile.Load(path)
   }
 
@@ -51,7 +51,7 @@ func intToStr(val int64) string {
 }
 
 func getNext() string {
-  path := utils.GetTimerFile()
+  path := fs.GetTimerFile()
 
   data := load()
   next := int64(0)
@@ -74,7 +74,7 @@ func getNext() string {
 
 // ================================================
 func PruneOldStamps() {
-  path := utils.GetTimerFile()
+  path := fs.GetTimerFile()
 
   now := time.Now()
   day := time.Hour * 24
@@ -106,7 +106,7 @@ type Timer struct {
 
 // ================================================
 func createBaseTimer() Timer {
-  path := utils.GetTimerFile()
+  path := fs.GetTimerFile()
 
   timer := Timer{}
   timer.path = path

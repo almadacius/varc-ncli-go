@@ -5,7 +5,7 @@ import (
   "fmt"
   "regexp"
   "io/ioutil"
-  "almadash/varc/utils"
+  "almadash/varc/utils/fs"
   "almadash/varc/utils/logger"
   "almadash/varc/utils/jsonfile"
 )
@@ -31,7 +31,7 @@ func ParseScope(scopePath string) (string, string) {
 func ListScopes() []string {
   reExt := regexp.MustCompile(`\..{3,4}$`)
 
-  scopeDir := utils.GetStorageDir()
+  scopeDir := fs.GetStorageDir()
 
   files, err := ioutil.ReadDir(scopeDir)
   logger.LogErrorAndPanic(err)
@@ -47,7 +47,7 @@ func ListScopes() []string {
 
 // ================================================
 func GetScopeFile(name string) string {
-  dir := utils.GetStorageDir()
+  dir := fs.GetStorageDir()
   path := dir + "/" + name + ".json"
   return path
 }
@@ -104,7 +104,7 @@ func (s *Scope) GetKeys() []string {
 func (s *Scope) Delete() {
   filepath := s.path
 
-  if utils.FileExists(filepath) {
+  if fs.FileExists(filepath) {
     os.Remove(filepath)
   }
 }
@@ -120,7 +120,7 @@ func (s *Scope) load() {
 }
 
 func (s *Scope) tryLoad() {
-  if utils.FileExists(s.path) {
+  if fs.FileExists(s.path) {
     s.load()
   }
 }

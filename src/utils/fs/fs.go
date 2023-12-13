@@ -5,9 +5,11 @@ import (
   "path"
   "path/filepath"
   "fmt"
+  gofs "io/fs"
   "time"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/utils/promise"
 )
 
 // ================================================
@@ -44,6 +46,15 @@ func EnsureDir(path string) {
   if ! exists {
     os.Mkdir(path, 0755)
   }
+}
+
+func ReadDir(path string) []gofs.DirEntry {
+  entries, err := os.ReadDir(path)
+  if err != nil {
+    msg := fmt.Sprintf("read dir FAILED: %s", path)
+    logger.LogErrorAndPanic(errors.New(msg))
+  }
+  return entries
 }
 
 // ================================================
@@ -90,6 +101,15 @@ func GetTestLockFile() string {
   return filePath
 }
 
+func GetLockDir() string {
+  dir := GetDirname()
+  dir = dir + "/locks"
+
+  EnsureDir(dir)
+
+  return dir
+}
+
 // ================================================
 func OpenWrite(path string, mode os.FileMode) *os.File {
   flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
@@ -116,28 +136,10 @@ func TouchFile(path string) {
 }
 
 // ================================================
-func WaitFor(fn func() bool, maxTries int, interval time.Duration) {
-  tries := 0
-  for {
-    if(fn()) {
-      break
-    }
-
-    tries++
-    if tries >= maxTries {
-      msg := fmt.Sprintf("condition NOT met after %d tries", tries)
-      logger.LogErrorAndPanic(errors.New(msg))
-      break
-    }
-
-    time.Sleep(interval)
-  }
-}
-
 func UntilFileExists(path string) {
   maxTries := 100000
   interval := 200 * time.Millisecond
-  WaitFor(func() bool {
+  promise.WaitFor(func() bool {
     return FileExists(path)
   }, maxTries, interval)
 }
@@ -145,7 +147,7 @@ func UntilFileExists(path string) {
 func UntilFileDoesNotExist(path string) {
   maxTries := 100000
   interval := 200 * time.Millisecond
-  WaitFor(func() bool {
+  promise.WaitFor(func() bool {
     return !FileExists(path)
   }, maxTries, interval)
 }

@@ -4,15 +4,14 @@ import (
   "fmt"
   "os"
   "errors"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/utils/logger"
   "almadash/varc/controller/timercon"
 )
 
 // ================================================
-type TimerEndCmd struct {}
-
-func (c *TimerEndCmd) Declare() {
-  // no flags
+type TimerEndCmd struct {
+  cmdlib.Command
 }
 
 func (c *TimerEndCmd) Run(options []string) {

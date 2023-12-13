@@ -5,14 +5,13 @@ import (
   "os"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/timercon"
 )
 
 // ================================================
-type TimerStepCmd struct {}
-
-func (c *TimerStepCmd) Declare() {
-  // no flags
+type TimerStepCmd struct {
+  cmdlib.Command
 }
 
 func (c *TimerStepCmd) Run(options []string) {

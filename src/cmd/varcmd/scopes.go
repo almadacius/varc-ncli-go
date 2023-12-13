@@ -3,14 +3,13 @@ package varcmd
 import (
   "os"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type ScopesCmd struct {}
-
-func (c *ScopesCmd) Declare() {
-  // no flags
+type ScopesCmd struct {
+  cmdlib.Command
 }
 
 func (c *ScopesCmd) Run(options []string) {

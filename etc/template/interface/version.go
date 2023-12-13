@@ -2,14 +2,13 @@ package othercmd
 
 import (
   "fmt"
-  "almadash/varc/cmd/cmdlib"
   "almadash/varc/auto"
 )
 
 // ================================================
-type VersionCmd struct {
-  cmdlib.Command
-}
+type VersionCmd struct {}
+
+func (c *VersionCmd) Declare() { /* virtual */ }
 
 func (c *VersionCmd) Run(options []string) {
   fmt.Println("varc-ncli-go")

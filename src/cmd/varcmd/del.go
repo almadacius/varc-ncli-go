@@ -5,14 +5,13 @@ import (
   "os"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type DelCmd struct {}
-
-func (c *DelCmd) Declare() {
-  // no flags
+type DelCmd struct {
+  cmdlib.Command
 }
 
 func (c *DelCmd) Run(options []string) {

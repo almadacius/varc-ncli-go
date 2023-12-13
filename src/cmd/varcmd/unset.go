@@ -5,14 +5,13 @@ import (
   "os"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type UnsetCmd struct {}
-
-func (c *UnsetCmd) Declare() {
-  // no flags
+type UnsetCmd struct {
+  cmdlib.Command
 }
 
 func (c *UnsetCmd) Run(options []string) {

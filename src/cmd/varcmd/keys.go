@@ -5,14 +5,13 @@ import (
   "os"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type KeysCmd struct {}
-
-func (c *KeysCmd) Declare() {
-  // no flags
+type KeysCmd struct {
+  cmdlib.Command
 }
 
 func (c *KeysCmd) Run(options []string) {

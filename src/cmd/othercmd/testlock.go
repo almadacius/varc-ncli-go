@@ -5,12 +5,13 @@ import (
   "os"
   "almadash/varc/utils/fs"
   "almadash/varc/utils/file/lockfile"
+  "almadash/varc/cmd/cmdlib"
 )
 
 // ================================================
-type TestLockCmd struct {}
-
-func (c *TestLockCmd) Declare() { /* virtual */ }
+type TestLockCmd struct {
+  cmdlib.Command
+}
 
 func (c *TestLockCmd) Run(options []string) {
   path := fs.GetTestLockFile()

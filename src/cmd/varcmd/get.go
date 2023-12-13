@@ -5,14 +5,13 @@ import (
   "os"
   "errors"
   "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type GetCmd struct {}
-
-func (c *GetCmd) Declare() {
-  // no flags
+type GetCmd struct {
+  cmdlib.Command
 }
 
 func (c *GetCmd) Run(options []string) {

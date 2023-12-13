@@ -21,6 +21,11 @@ func New(path string) JsonFile {
   return out
 }
 
+func (this *JsonFile) GetData() JsonData {
+  return this.Data
+}
+
+// ================================================
 func (this *JsonFile) Save() {
   jsonBytes := this.Data.ToBytes()
 

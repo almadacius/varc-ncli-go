@@ -42,29 +42,30 @@ func newTimerBase() Timer {
 }
 
 func NewTimer() Timer {
-  timer := newTimerBase()
+  out := newTimerBase()
 
-  timer.key = timer.getNext()
-  timer.startTime = varctime.GetTimestamp()
+  out.key = out.getNext()
+  out.startTime = varctime.GetTimestamp()
 
-  timer.persist()
+  out.persist()
 
-  return timer
+  return out
 }
 
 func NewTimerFromKey(key string) Timer {
-  timer := newTimerBase()
-  timer.key = key
+  out := newTimerBase()
+  out.key = key
 
-  timer.loadStartTime()
+  out.loadStartTime()
 
-  return timer
+  return out
 }
 
 // ================================================
 func (this *Timer) getNext() string {
+  data := &this.data
+
   this.load()
-  data := this.data
 
   next := int64(0)
 
@@ -129,37 +130,51 @@ func (this *Timer) PruneOldStamps() {
 
 // ================================================
 func (this *Timer) load() {
-  if this.file.Exists() {
-    bytes := this.file.Read()
-    this.data.SetBytes(bytes)
+  file := &this.file
+  data := &this.data
+
+  if file.Exists() {
+    file.OpenRead()
+    defer file.Close()
+    bytes := file.Read()
+    data.SetBytes(bytes)
   }
 }
 
 func (this *Timer) save() {
-  bytes := this.data.ToBytes()
-  this.file.Write(bytes)
+  file := &this.file
+  data := &this.data
+
+  bytes := data.ToBytes()
+  file.OpenWrite()
+  defer file.Close()
+  file.Write(bytes)
 }
 
 func (this *Timer) persist() {
+  data := &this.data
+
   this.load()
 
-  this.data.Set(this.key, this.startTime)
+  data.Set(this.key, this.startTime)
 
   this.save()
 }
 
 func (this *Timer) clearFromFile() {
+  data := &this.data
+
   this.load()
 
-  data := this.data
   data.Unset(this.key)
 
   this.save()
 }
 
 func (this *Timer) loadStartTime() {
+  data := &this.data
+
   this.load()
-  data := this.data
 
   if !data.HasKey(this.key) {
     msg := fmt.Sprintf("timerkey does not exist: %s", this.key)

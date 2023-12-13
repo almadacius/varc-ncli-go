@@ -30,14 +30,18 @@ func (this *LockFile) Load() {
   if !this.Exists() {
     this.Reset()
   }
+
   this.JsonFile.Load()
-  pids := this.JsonFile.Data.GetIntArray("pids")
+
+  data := this.GetData()
+  pids := data.GetIntArray("pids")
   this.updateData()
   this.pids = pids
 }
 
 func (this *LockFile) updateData() {
-  this.JsonFile.Data.Set("pids", this.pids)
+  data := this.GetData()
+  data.Set("pids", this.pids)
 }
 
 func (this *LockFile) GetList() []int {

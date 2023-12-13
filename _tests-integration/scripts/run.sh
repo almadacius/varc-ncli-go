@@ -3,11 +3,11 @@
 # ===================================
 function getTest () {
   # echo "run-local.sh"
-  echo "test-vars.sh"
+  # echo "test-vars.sh"
   # echo "test-scope.sh"
   # echo "test-timer.sh"
   # echo "file-lock.sh"
-  # echo "test-lock2.sh"
+  echo "test-lock2.sh"
   # echo "version.sh"
 }
 

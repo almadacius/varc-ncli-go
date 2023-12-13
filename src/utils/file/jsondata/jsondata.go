@@ -114,9 +114,15 @@ func (this *JsonData) GetData() JsonType {
 
 // ================================================
 func (this *JsonData) GetIntArray(key string) []int {
+  out := []int{}
+
+  if !this.HasKey(key) {
+    return out
+  }
+
   listItem := this.Get(key)
   raw := listItem.([]interface{})
-  out := []int{}
+
   for _, v := range raw {
     num := int(v.(float64))
     out = append(out, num)

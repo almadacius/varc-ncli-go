@@ -6,6 +6,7 @@ import (
   "path/filepath"
   "fmt"
   gofs "io/fs"
+  "io/ioutil"
   "time"
   "errors"
   "almadash/varc/utils/logger"
@@ -54,6 +55,12 @@ func ReadDir(path string) []gofs.DirEntry {
     msg := fmt.Sprintf("read dir FAILED: %s", path)
     logger.LogErrorAndPanic(errors.New(msg))
   }
+  return entries
+}
+
+func ReadDir2(path string) []gofs.FileInfo {
+  entries, err := ioutil.ReadDir(path)
+  logger.LogErrorAndPanic(err)
   return entries
 }
 

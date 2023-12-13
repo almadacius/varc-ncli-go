@@ -12,5 +12,6 @@ func (c *TimerPruneCmd) Declare() {
 }
 
 func (c *TimerPruneCmd) Run(options []string) {
-  timercon.PruneOldStamps()
+  timer := timercon.NewTimer()
+  timer.PruneOldStamps()
 }

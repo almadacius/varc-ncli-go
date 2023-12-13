@@ -13,7 +13,6 @@ func (c *TimerCreateCmd) Declare() {
 }
 
 func (c *TimerCreateCmd) Run(options []string) {
-  timer := timercon.CreateNew()
-
+  timer := timercon.NewTimer()
   logger.Output(timer.GetKey())
 }

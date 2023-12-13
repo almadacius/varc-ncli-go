@@ -1,14 +1,16 @@
 package scopecon
 
 import (
-  "os"
   "fmt"
   "regexp"
-  "io/ioutil"
   "almadash/varc/utils/fs"
-  "almadash/varc/utils/logger"
-  "almadash/varc/utils/jsonfile"
+  "almadash/varc/utils/file/jsondata"
+  "almadash/varc/utils/file/file"
 )
+
+// ================================================
+type JsonData = jsondata.JsonData
+type File = file.File
 
 // ================================================
 func ParseScope(scopePath string) (string, string) {
@@ -33,8 +35,7 @@ func ListScopes() []string {
 
   scopeDir := fs.GetStorageDir()
 
-  files, err := ioutil.ReadDir(scopeDir)
-  logger.LogErrorAndPanic(err)
+  files := fs.ReadDir(scopeDir)
 
   filenames := []string{}
   for _, f := range files {
@@ -56,81 +57,72 @@ func GetScopeFile(name string) string {
 type Scope struct {
   name string
   path string
-  data map[string] string
+  data JsonData
+  file File
 }
 
 func NewScope(name string) Scope {
-  scope := Scope{}
-  scope.name = name
+  out := Scope{}
+  out.name = name
 
-  path := GetScopeFile(scope.name)
-  scope.path = path
+  path := GetScopeFile(out.name)
+  out.path = path
 
-  scope.data = make(map[string] string)
+  out.file = file.New(path)
+  out.data = jsondata.New()
 
-  scope.tryLoad()
+  out.tryLoad()
 
-  return scope
-}
-
-/*
-  - use right after NewScope, as it has fresh loaded from disk
-*/
-func (s *Scope) SetVarIfChanged(key string, value string) {
-  currVal := s.GetVar(key)
-  // value didn't change, do nothing
-  if currVal == value { return }
-  s.SetVar(key, value)
-}
-
-func (s *Scope) SetVar(key string, value string) {
-  s.data[key] = value
-  s.save()
-}
-
-func (s *Scope) UnsetVar(key string) {
-  delete(s.data, key)
-  s.save()
-}
-
-func (s *Scope) GetData() map[string] string {
-  return s.data
-}
-
-func (s *Scope) GetVar(key string) string {
-  return s.data[key]
-}
-
-func (s *Scope) GetKeys() []string {
-  keys := []string{}
-
-  for key, _ := range s.data {
-    keys = append(keys, key)
-  }
-
-  return keys
-}
-
-func (s *Scope) Delete() {
-  filepath := s.path
-
-  if fs.FileExists(filepath) {
-    os.Remove(filepath)
-  }
+  return out
 }
 
 // ================================================
-func (s *Scope) save() {
-  jsonfile.Save(s.path, s.data)
+func (this *Scope) GetData() JsonData {
+  return this.data
 }
 
-func (s *Scope) load() {
-  data := jsonfile.Load(s.path)
-  s.data = data
+func (this *Scope) GetVar(key string) string {
+  rawVal := this.data.Get(key)
+  return rawVal.(string)
 }
 
-func (s *Scope) tryLoad() {
-  if fs.FileExists(s.path) {
-    s.load()
+func (this *Scope) GetKeys() []string {
+  keys := this.data.GetKeys()
+  return keys
+}
+
+func (this *Scope) SetVar(key string, value string) {
+  this.data.Set(key, value)
+  this.save()
+}
+
+func (this *Scope) UnsetVar(key string) {
+  this.data.Unset(key)
+  this.save()
+}
+
+func (this *Scope) Delete() {
+  this.file.Delete()
+}
+
+// ================================================
+func (this *Scope) save() {
+  // data did NOT change, do NOT waste disk IO
+  if(!this.data.IsDirty()) {
+    return
+  }
+  rawData := this.data.ToBytes()
+  this.file.Write(rawData)
+  this.data.ClearDirty()
+}
+
+func (this *Scope) load() {
+  rawData := this.file.Read()
+  this.data.SetBytes(rawData)
+}
+
+func (this *Scope) tryLoad() {
+  if this.file.Exists() {
+    this.load()
   }
 }

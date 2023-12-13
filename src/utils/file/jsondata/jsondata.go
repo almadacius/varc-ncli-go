@@ -4,6 +4,7 @@ import (
   "encoding/json"
   "almadash/varc/utils/logger"
   "almadash/varc/utils/obj"
+  "almadash/varc/utils/reflect"
 )
 
 // ================================================
@@ -34,11 +35,40 @@ func (this *JsonData) ResetData() {
 }
 
 func (this *JsonData) Set(key string, value interface{}) {
+  if(reflect.IsComparable(value)) {
+    currVal := this.Get(key)
+    // value did NOT change, do nothing
+    if currVal == value {
+      return
+    }
+  }
+
   this.data[key] = value
+  this.dirty = true
+}
+
+func (this *JsonData) Unset(key string) {
+  delete(this.data, key)
+  this.dirty = true
 }
 
 func (this *JsonData) Get(key string) interface{} {
   return this.data[key]
+}
+
+func (this *JsonData) GetIfAvailable(key string) (interface{}, bool) {
+  value, ok := this.data[key]
+  return value, ok
+}
+
+func (this *JsonData) HasKey(key string) bool {
+  _, ok := this.data[key]
+  return ok
+}
+
+// ================================================
+func (this *JsonData) GetString(key string) string {
+  return this.Get(key).(string)
 }
 
 // ================================================
@@ -65,6 +95,23 @@ func (this *JsonData) ToBytes() []byte {
 }
 
 // ================================================
+func (this *JsonData) GetKeys() []string {
+  data := this.data
+
+  keys := []string{}
+
+  for key, _ := range data {
+    keys = append(keys, key)
+  }
+
+  return keys
+}
+
+func (this *JsonData) GetData() JsonType {
+  return this.data
+}
+
+// ================================================
 func (this *JsonData) GetIntArray(key string) []int {
   listItem := this.Get(key)
   raw := listItem.([]interface{})
@@ -74,4 +121,13 @@ func (this *JsonData) GetIntArray(key string) []int {
     out = append(out, num)
   }
   return out
+}
+
+// ================================================
+func (this *JsonData) ForEachString(fn func(string, string)) {
+  keys := this.GetKeys()
+  for _, key := range keys {
+    value := this.GetString(key)
+    fn(key, value)
+  }
 }

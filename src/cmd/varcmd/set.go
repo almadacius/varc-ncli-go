@@ -36,5 +36,5 @@ func (c *SetCmd) Run(options []string) {
 
   scope := scopecon.NewScope(scopeName)
 
-  scope.SetVarIfChanged(varName, newValue)
+  scope.SetVar(varName, newValue)
 }

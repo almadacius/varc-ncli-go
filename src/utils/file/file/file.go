@@ -72,3 +72,9 @@ func (this *File) Read() []byte {
   out := buffer[0:amount]
   return out
 }
+
+func (this *File) Delete() {
+  if this.Exists() {
+    fs.FileDelete(this.path)
+  }
+}

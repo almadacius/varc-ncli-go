@@ -22,10 +22,10 @@ func (c *TimerStepCmd) Run(options []string) {
   }
   timerkey := options[0]
   if timerkey == "" {
-    logger.LogErrorAndPanic(errors.New("timerkey not provided"))
+    logger.LogErrorAndPanic(errors.New("timerkey NOT provided"))
   }
 
-  timer := timercon.FromKey(timerkey)
+  timer := timercon.NewTimerFromKey(timerkey)
   diff := timer.Step()
 
   logger.Output(diff)

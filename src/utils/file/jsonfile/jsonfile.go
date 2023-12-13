@@ -24,7 +24,7 @@ func New(path string) JsonFile {
 func (this *JsonFile) Save() {
   jsonBytes := this.Data.ToBytes()
 
-  this.OpenWrite(0644)
+  this.OpenWrite()
   defer this.Close()
   this.Write(jsonBytes)
 }

@@ -32,5 +32,5 @@ func (c *GetCmd) Run(options []string) {
 
   value := scope.GetVar(varName)
 
-  os.Stdout.Write([]byte(value))
+  logger.Output(value)
 }

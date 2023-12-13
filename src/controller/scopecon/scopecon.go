@@ -82,8 +82,11 @@ func (this *Scope) GetData() JsonData {
 }
 
 func (this *Scope) GetVar(key string) string {
-  rawVal := this.data.Get(key)
-  return rawVal.(string)
+  data := &this.data
+  if !data.HasKey(key) {
+    return ""
+  }
+  return data.GetString(key)
 }
 
 func (this *Scope) GetKeys() []string {
@@ -92,7 +95,8 @@ func (this *Scope) GetKeys() []string {
 }
 
 func (this *Scope) SetVar(key string, value string) {
-  this.data.Set(key, value)
+  data := &this.data
+  data.Set(key, value)
   this.save()
 }
 
@@ -107,22 +111,34 @@ func (this *Scope) Delete() {
 
 // ================================================
 func (this *Scope) save() {
+  file := &this.file
+  data := &this.data
+
   // data did NOT change, do NOT waste disk IO
-  if(!this.data.IsDirty()) {
+  if(!data.IsDirty()) {
     return
   }
-  rawData := this.data.ToBytes()
-  this.file.Write(rawData)
-  this.data.ClearDirty()
+
+  rawData := data.ToBytes()
+  file.OpenWrite()
+  defer file.Close()
+  file.Write(rawData)
+  data.ClearDirty()
 }
 
 func (this *Scope) load() {
-  rawData := this.file.Read()
-  this.data.SetBytes(rawData)
+  file := &this.file
+  data := &this.data
+
+  file.OpenRead()
+  defer file.Close()
+  rawData := file.Read()
+  data.SetBytes(rawData)
 }
 
 func (this *Scope) tryLoad() {
-  if this.file.Exists() {
+  file := this.file
+  if file.Exists() {
     this.load()
   }
 }

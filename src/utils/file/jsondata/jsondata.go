@@ -62,7 +62,8 @@ func (this *JsonData) GetIfAvailable(key string) (interface{}, bool) {
 }
 
 func (this *JsonData) HasKey(key string) bool {
-  _, ok := this.data[key]
+  data := this.data
+  _, ok := data[key]
   return ok
 }
 

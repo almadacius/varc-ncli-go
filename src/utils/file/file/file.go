@@ -24,7 +24,11 @@ func New(path string) File {
 }
 
 // ================================================
-func (this *File) OpenWrite(mode os.FileMode) {
+func (this *File) OpenWrite() {
+  this.OpenWriteMode(0644)
+}
+
+func (this *File) OpenWriteMode(mode os.FileMode) {
   instance := fs.OpenWrite(this.path, mode)
   this.instance = instance
 }
@@ -34,17 +38,23 @@ func (this *File) OpenRead() {
   this.instance = instance
 }
 
+// ================================================
 func (this *File) GetFd() int {
   file := this.instance
   fd := int(file.Fd())
   return fd
 }
 
-func (this *File) EnsureOpen() {
+func (this *File) AssertOpen() {
   file := this.instance
   if file == nil {
     logger.LogErrorAndPanic(errors.New("file NOT open"))
   }
+}
+
+func (this *File) IsOpen() bool {
+  file := this.instance
+  return file == nil
 }
 
 // ================================================
@@ -55,16 +65,17 @@ func (this *File) Exists() bool {
 func (this *File) Close() {
   file := this.instance
   file.Close()
+  this.instance = nil
 }
 
 func (this *File) Write(data []byte) (int, error) {
-  this.EnsureOpen()
+  this.AssertOpen()
   file := this.instance
   return file.Write(data)
 }
 
 func (this *File) Read() []byte {
-  this.EnsureOpen()
+  this.AssertOpen()
   file := this.instance
   buffer := make([]byte, 1024)
   amount, err := file.Read(buffer)

@@ -20,9 +20,9 @@ func New(path string) LockFile {
 }
 
 func (this *LockFile) Reset() {
-  data := jsonfile.EmptyMap()
-  data["pids"] = []int{}
-  this.Data = data
+  data := this.Data
+  data.ResetData()
+  data.Set("pids", []int{})
   this.Save()
 }
 
@@ -31,13 +31,13 @@ func (this *LockFile) Load() {
     this.Reset()
   }
   this.JsonFile.Load()
-  pids := this.JsonFile.GetIntArray("pids")
+  pids := this.JsonFile.Data.GetIntArray("pids")
   this.updateData()
   this.pids = pids
 }
 
 func (this *LockFile) updateData() {
-  this.JsonFile.Data["pids"] = this.pids
+  this.JsonFile.Data.Set("pids", this.pids)
 }
 
 func (this *LockFile) GetList() []int {

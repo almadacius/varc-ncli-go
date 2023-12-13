@@ -1,13 +1,12 @@
 package jsonfile
 
 import (
-  "encoding/json"
-  "almadash/varc/utils/logger"
   "almadash/varc/utils/file/file"
+  "almadash/varc/utils/file/jsondata"
 )
 
 type File = file.File
-type JsonData map[string] interface{}
+type JsonData = jsondata.JsonData
 
 // ================================================
 type JsonFile struct {
@@ -16,14 +15,14 @@ type JsonFile struct {
 }
 
 func New(path string) JsonFile {
-  jsonFile := JsonFile{}
-  jsonFile.File = file.New(path)
-  return jsonFile
+  out := JsonFile{}
+  out.File = file.New(path)
+  out.Data = jsondata.New()
+  return out
 }
 
 func (this *JsonFile) Save() {
-  jsonBytes, err := json.Marshal(this.Data)
-  logger.LogErrorAndPanic(err)
+  jsonBytes := this.Data.ToBytes()
 
   this.OpenWrite(0644)
   defer this.Close()
@@ -31,7 +30,7 @@ func (this *JsonFile) Save() {
 }
 
 func (this *JsonFile) Reset() {
-  this.Data = EmptyMap()
+  this.Data.ResetData()
   this.Save()
 }
 
@@ -41,29 +40,6 @@ func (this *JsonFile) Load() JsonData {
 
   jsonBytes := this.Read()
 
-  var data JsonData
-
-  err := json.Unmarshal(jsonBytes, &data)
-  logger.LogErrorAndPanic(err)
-
-  this.Data = data
-  return data
-}
-
-// ================================================
-func EmptyMap() JsonData {
-  out := make(JsonData)
-  return out
-}
-
-// ================================================
-func (this *JsonFile) GetIntArray(key string) []int {
-  data := this.Data
-  raw := data[key].([]interface{})
-  out := []int{}
-  for _, v := range raw {
-    num := int(v.(float64))
-    out = append(out, num)
-  }
-  return out
+  this.Data.SetBytes(jsonBytes)
+  return this.Data
 }

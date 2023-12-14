@@ -1,8 +1,7 @@
 package file2
 
 import (
-  "encoding/json"
-  "almadash/varc/utils/logger"
+  "time"
   "almadash/varc/utils/promise"
   "almadash/varc/utils/file/file"
   "almadash/varc/utils/file/lock"
@@ -17,32 +16,34 @@ type Lock = lock.Lock
 */
 type File2 struct {
   File
-  lockPathW Lock
-  lockPathR Lock
+  lockW Lock
+  lockR Lock
 }
 
 func New(path string) File2 {
   out := File2{}
   out.File = file.New(path)
 
-  out.lockW = Lock.New("write", path)
-  out.lockR = Lock.New("read", path)
+  out.lockW = lock.New("write", path)
+  out.lockR = lock.New("read", path)
   return out
 }
 
 // ================================================
-func (this *File2) Save(data []byte]) {
+func (this *File2) Save(data []byte) {
   maxTries := 100000
   interval := 200 * time.Millisecond
 
+  path := this.GetPath()
+
   // cannot write if someone is writing or reading
   promise.WaitFor(func() bool {
-    writeLocks := lock.ListWriteLocks()
+    writeLocks := lock.ListWriteLocks(path)
     if writeLocks != nil {
       return false
     }
 
-    readLocks := lock.ListReadLocks()
+    readLocks := lock.ListReadLocks(path)
     if readLocks != nil {
       return false
     }
@@ -55,18 +56,21 @@ func (this *File2) Save(data []byte]) {
   wLock.Lock()
   defer wLock.Unlock()
 
-  this.OpenWrite(0644)
+  this.OpenWrite()
   defer this.Close()
+
   this.Write(data)
 }
 
-func (this *File2) Load() JsonData {
+func (this *File2) Load() []byte {
   maxTries := 100000
   interval := 200 * time.Millisecond
 
+  path := this.GetPath()
+
   // cannot read if someone is writing
   promise.WaitFor(func() bool {
-    writeLocks := lock.ListWriteLocks()
+    writeLocks := lock.ListWriteLocks(path)
     if writeLocks != nil {
       return false
     }

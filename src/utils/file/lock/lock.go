@@ -3,36 +3,35 @@ package lock
 import (
   "fmt"
   "os"
+  "errors"
   gopath "path"
-  "encoding/json"
   "almadash/varc/utils/logger"
+  "almadash/varc/utils/fs"
   "almadash/varc/utils/str"
-  "almadash/varc/utils/file/file"
 )
 
 // ================================================
-func GetSuffix(type string) {
+func GetSuffix(typeName string) string {
   var suffix string
-  if type == "write" {
+  if typeName == "write" {
     suffix = ".lockw."
-  } else if type == "read" {
+  } else if typeName == "read" {
     suffix = ".lockr."
   } else {
-    msg := fmt.Sprintf("INVALID type: %s", type)
+    msg := fmt.Sprintf("INVALID type: %s", typeName)
     logger.LogErrorAndPanic(errors.New(msg))
   }
 
   return suffix
 }
 
-func ListLocksOfType(path string, type string) {
-  pid := os.Getpid()
-  suffix := GetSuffix(type)
+func ListLocksOfType(path string, typeName string) []string {
+  suffix := GetSuffix(typeName)
 
   dir := fs.GetLockDir()
-  basename := gopath.Base(basePath)
+  basename := gopath.Base(path)
 
-  search = basename + suffix
+  search := basename + suffix
 
   entries := fs.ReadDir(dir)
   matches := []string{}
@@ -48,12 +47,12 @@ func ListLocksOfType(path string, type string) {
   return matches
 }
 
-func ListWriteLocks(path string) {
+func ListWriteLocks(path string) []string {
   matches := ListLocksOfType(path, "write")
   return matches
 }
 
-func ListReadLocks(path string) {
+func ListReadLocks(path string) []string {
   matches := ListLocksOfType(path, "read")
   return matches
 }
@@ -66,22 +65,22 @@ type Lock struct {
   basePath string
   path string
   locked bool
-  type string
+  typeName string
 }
 
-func New(type string, basePath string) Lock {
+func New(typeName string, basePath string) Lock {
   out := Lock{}
   out.locked = false
-  out.type = false
+  out.typeName = ""
 
   pid := os.Getpid()
-  suffix := GetSuffix(type)
+  suffix := GetSuffix(typeName)
 
   out.basePath = basePath
 
   dir := fs.GetLockDir()
   basename := gopath.Base(basePath)
-  out.path = dir + "/" + basename + suffix + pid
+  out.path = dir + "/" + basename + suffix + string(pid)
 
   if out.Exists() {
     out.locked = true
@@ -97,7 +96,7 @@ func (this *Lock) Exists() bool {
 
 func (this *Lock) Lock() {
   if this.Exists() {
-    msg := fmt.Sprintf("[error]: %s Lock EXISTS", this.type)
+    msg := fmt.Sprintf("[error]: %s Lock EXISTS", this.typeName)
     logger.LogErrorAndPanic(errors.New(msg))
   }
   fs.TouchFile(this.path)

@@ -24,6 +24,22 @@ func New(path string) File {
 }
 
 // ================================================
+func (this *File) Save(data []byte) {
+  this.OpenWrite()
+  defer this.Close()
+
+  this.Write(data)
+}
+
+func (this *File) Load() []byte {
+  this.OpenRead()
+  defer this.Close()
+
+  data := this.Read()
+  return data
+}
+
+// ================================================
 func (this *File) OpenWrite() {
   this.OpenWriteMode(0644)
 }
@@ -45,16 +61,19 @@ func (this *File) GetFd() int {
   return fd
 }
 
+func (this *File) GetPath() string {
+  return this.path
+}
+
 func (this *File) AssertOpen() {
-  file := this.instance
-  if file == nil {
+  if !this.IsOpen() {
     logger.LogErrorAndPanic(errors.New("file NOT open"))
   }
 }
 
 func (this *File) IsOpen() bool {
   file := this.instance
-  return file == nil
+  return file != nil
 }
 
 // ================================================

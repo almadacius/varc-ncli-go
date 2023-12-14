@@ -5,12 +5,13 @@ import (
   "regexp"
   "almadash/varc/utils/fs"
   "almadash/varc/utils/file/jsondata"
-  "almadash/varc/utils/file/file"
+  // "almadash/varc/utils/file/file"
+  "almadash/varc/utils/file/file2"
 )
 
 // ================================================
 type JsonData = jsondata.JsonData
-type File = file.File
+type File = file2.File2
 
 // ================================================
 func ParseScope(scopePath string) (string, string) {
@@ -68,7 +69,7 @@ func NewScope(name string) Scope {
   path := GetScopeFile(out.name)
   out.path = path
 
-  out.file = file.New(path)
+  out.file = file2.New(path)
   out.data = jsondata.New()
 
   out.tryLoad()
@@ -120,9 +121,7 @@ func (this *Scope) save() {
   }
 
   rawData := data.ToBytes()
-  file.OpenWrite()
-  defer file.Close()
-  file.Write(rawData)
+  file.Save(rawData)
   data.ClearDirty()
 }
 
@@ -130,9 +129,7 @@ func (this *Scope) load() {
   file := &this.file
   data := &this.data
 
-  file.OpenRead()
-  defer file.Close()
-  rawData := file.Read()
+  rawData := file.Load()
   data.SetBytes(rawData)
 }
 

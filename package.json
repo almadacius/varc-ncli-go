@@ -1,7 +1,7 @@
 {
   "name": "@almadash/varc-ncli-go",
   "description": "helper for Bash state management, golang",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": "Almadash",
   "private": true,
   "license": "UNLICENSED",

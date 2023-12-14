@@ -3,16 +3,15 @@ package timercmd
 import (
   "fmt"
   "os"
-  "errors"  
-  "almadash/varc/utils"
+  "errors"
+  "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/timercon"
 )
 
 // ================================================
-type TimerStepCmd struct {}
-
-func (c *TimerStepCmd) Declare() {
-  // no flags
+type TimerStepCmd struct {
+  cmdlib.Command
 }
 
 func (c *TimerStepCmd) Run(options []string) {
@@ -22,11 +21,11 @@ func (c *TimerStepCmd) Run(options []string) {
   }
   timerkey := options[0]
   if timerkey == "" {
-    utils.LogErrorAndPanic(errors.New("timerkey not provided"))
+    logger.LogErrorAndPanic(errors.New("timerkey NOT provided"))
   }
 
-  timer := timercon.FromKey(timerkey)
+  timer := timercon.NewTimerFromKey(timerkey)
   diff := timer.Step()
 
-  utils.Output(diff)
+  logger.Output(diff)
 }

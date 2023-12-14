@@ -4,10 +4,10 @@ import (
   "flag"
   "fmt"
   "os"
-  "almadash/varc/cmd/cmdlib"
   "almadash/varc/cmd/varcmd"
   "almadash/varc/cmd/timercmd"
   "almadash/varc/cmd/othercmd"
+  "almadash/varc/utils"
 )
 
 // ================================================
@@ -23,7 +23,7 @@ func main() {
   cmdName := os.Args[1]
   options := os.Args[2:]
 
-  var cmd cmdlib.ICommand
+  var cmd utils.Command
 
   switch cmdName {
   // other

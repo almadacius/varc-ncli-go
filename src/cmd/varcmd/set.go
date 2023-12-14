@@ -4,15 +4,14 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type SetCmd struct {}
-
-func (c *SetCmd) Declare() {
-  // no flags
+type SetCmd struct {
+  cmdlib.Command
 }
 
 func (c *SetCmd) Run(options []string) {
@@ -25,11 +24,11 @@ func (c *SetCmd) Run(options []string) {
   newValue := options[1]
 
   if scopePath == "" {
-    utils.LogErrorAndPanic(errors.New("[set var]: scopePath not provided"))
+    logger.LogErrorAndPanic(errors.New("[set var]: scopePath not provided"))
   }
   if newValue == "" {
     message := fmt.Sprintf("[set var '%s']: value not provided", scopePath)
-    utils.LogErrorAndPanic(errors.New(message))
+    logger.LogErrorAndPanic(errors.New(message))
   }
 
   scopeName, varName := scopecon.ParseScope(scopePath)

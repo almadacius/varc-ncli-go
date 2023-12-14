@@ -4,15 +4,14 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type UnsetCmd struct {}
-
-func (c *UnsetCmd) Declare() {
-  // no flags
+type UnsetCmd struct {
+  cmdlib.Command
 }
 
 func (c *UnsetCmd) Run(options []string) {
@@ -24,7 +23,7 @@ func (c *UnsetCmd) Run(options []string) {
   scopePath := options[0]
 
   if scopePath == "" {
-    utils.LogErrorAndPanic(errors.New("scopePath not provided"))
+    logger.LogErrorAndPanic(errors.New("scopePath not provided"))
   }
 
   scopeName, varName := scopecon.ParseScope(scopePath)

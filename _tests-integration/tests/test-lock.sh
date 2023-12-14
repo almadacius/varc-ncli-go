@@ -42,6 +42,22 @@ function runtest () {
   writeWave
   writeWave
   writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
+  writeWave
 
   # ===================================
   local out=$(varcgo get "far.bring")

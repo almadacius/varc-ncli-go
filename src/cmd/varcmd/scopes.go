@@ -2,21 +2,20 @@ package varcmd
 
 import (
   "os"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type ScopesCmd struct {}
-
-func (c *ScopesCmd) Declare() {
-  // no flags
+type ScopesCmd struct {
+  cmdlib.Command
 }
 
 func (c *ScopesCmd) Run(options []string) {
   scopes := scopecon.ListScopes()
 
-  bytes := utils.StringListToBytes(scopes)
+  bytes := logger.StringListToBytes(scopes)
 
   os.Stdout.Write(bytes)
 }

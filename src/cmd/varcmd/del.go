@@ -4,15 +4,14 @@ import (
   "fmt"
   "os"
   "errors"
-  "almadash/varc/utils"
+  "almadash/varc/utils/logger"
+  "almadash/varc/cmd/cmdlib"
   "almadash/varc/controller/scopecon"
 )
 
 // ================================================
-type DelCmd struct {}
-
-func (c *DelCmd) Declare() {
-  // no flags
+type DelCmd struct {
+  cmdlib.Command
 }
 
 func (c *DelCmd) Run(options []string) {
@@ -24,7 +23,7 @@ func (c *DelCmd) Run(options []string) {
   scopeName := options[0]
 
   if scopeName == "" {
-    utils.LogErrorAndPanic(errors.New("scopeName not provided"))
+    logger.LogErrorAndPanic(errors.New("scopeName not provided"))
   }
 
   scope := scopecon.NewScope(scopeName)

@@ -51,8 +51,7 @@ these were runs of a single console log command on different technologies.
 ## structure
 
 - deployment
-  + linked repo
-  + packaged app (@TODO)
+  + packaged app
 
 - storage
   + local json
